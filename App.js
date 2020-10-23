@@ -1,21 +1,46 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Styles from './components/styles';
+import { NavigationContainer } from  '@react-navigation/native';
+import { createStackNavigator} from '@react-navigation/stack';
+//import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Home from './pages/home';
+import About from './pages/about';
+import 'react-native-gesture-handler';
+
+const Stack = createStackNavigator();
+//const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Home'>
+          <Stack.Screen name='Home' component={Home} options={
+            {
+              tittle: "My Home"
+            }
+          }/>
+          <Stack.Screen name='About' component={About} />
+        </Stack.Navigator>
+      </NavigationContainer>
   );
+  
+  //Ejemplo con TabNavigator (creo que a nosotros nos conviene usar Stack)
+  /*return (
+    <NavigationContainer>
+      <Tab.Navigator initialRouteName='Home'>
+        <Tab.Screen name='Home' component={Home} options={
+          {
+            tittle: "My Home"
+          }
+        }/>
+      <Tab.Screen name='About' component={About} />
+    </Tab.Navigator>
+  </NavigationContainer>
+  );*/
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
+
+
