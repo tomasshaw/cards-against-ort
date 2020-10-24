@@ -1,3 +1,4 @@
+import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import Styles from './components/styles';
@@ -24,21 +25,23 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
   );
-  
-  //Ejemplo con TabNavigator (creo que a nosotros nos conviene usar Stack)
-  /*return (
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName='Home'>
-        <Tab.Screen name='Home' component={Home} options={
-          {
-            tittle: "My Home"
-          }
-        }/>
-      <Tab.Screen name='About' component={About} />
-    </Tab.Navigator>
-  </NavigationContainer>
-  );*/
 }
+
+registerRootComponent(App)
+
+// Ejemplo con TabNavigator (creo que a nosotros nos conviene usar Stack)
+/*return (
+	<NavigationContainer>
+	  <Tab.Navigator initialRouteName='Home'>
+		<Tab.Screen name='Home' component={Home} options={
+		  {
+			tittle: "My Home"
+		  }
+		}/>
+	  <Tab.Screen name='About' component={About} />
+	</Tab.Navigator>
+	</NavigationContainer>
+);*/
 
 
 
