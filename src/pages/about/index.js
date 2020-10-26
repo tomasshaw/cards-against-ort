@@ -4,13 +4,12 @@ import { Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 
 export default function About({ navigation, route }) {
-	//route trae los params
-	const { nombre } = route.params || { nombre: '' }
+	const { name } = route.params || { name: 'Invitado' }
 
 	return (
 		<View style={Styles.container}>
-			<Text style={Styles.white}>Hola {route.params.nombre}</Text>
 			<StatusBar style="auto" />
+			<Text style={Styles.white}>Hola {name}</Text>
 
 			<Button
 				title="Go back"
