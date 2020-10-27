@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
 	Button,
 	Text,
@@ -9,11 +9,23 @@ import {
 } from 'react-native'
 import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
+import io from 'socket.io-client'
+const ENDPOINT = "http://127.0.0.1:4001";
 
 export default function Home({ navigation }) {
 	const [name, setName] = useState('')
 	const [lobbyId, setLobbyId] = useState('')
 	const isExistingGame = lobbyId.length > 2
+
+
+	useEffect(() => {
+		const socket = io(ENDPOINT, {      
+			transports: ['websocket']});
+		socket.connect();
+		socket.on('connect', () => {
+			console.log("Conectado desde front")
+		})
+	  }, []);
 
 	const handleGotToGame = () => {
 		navigation.navigate('About', { name })
