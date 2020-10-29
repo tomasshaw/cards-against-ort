@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+//import { Button } from 'react-native-elements';
 import {
 	Button,
 	Text,
@@ -16,24 +17,23 @@ export default function Home({ navigation }) {
 	const isExistingGame = lobbyId.length > 2
 
 	const handleGotToGame = () => {
-		navigation.navigate('About', { name })
+		navigation.navigate('Lobby', { name })
 	}
 
 	return (
 		<>
 			<StatusBar
-				barStyle="light-content"
-				backgroundColor="#6a51ae"
-				style={Styles.navbar}
+				//barStyle="light-content"
+				//backgroundColor="#6a51ae"
 			/>
 			<View style={Styles.container}>
 				<View style={Styles.titleLayoutContainer}>
 					<View style={Styles.logoContainer}>
-						<Image source={caoLogo} style={Styles.logoImage} />
+						<Image source={caoLogo} />
 					</View>
 					<View style={Styles.nameTitleContainer}>
 						<Text style={[Styles.white, Styles.mainText]}>
-							{'Cards \n Against \n  Ort'}
+							{'Cards \nAgainst \nOrt'}
 						</Text>
 					</View>
 				</View>
@@ -41,25 +41,25 @@ export default function Home({ navigation }) {
 
 				<View style={Styles.newGameInfoContainer}>
 					<TextInput
-						style={Styles.whitebg}
+						style={Styles.input}
 						value={name}
 						onChangeText={setName}
 						placeholder="Name"
 					/>
 					<View style={Styles.divider} />
 					<TextInput
-						style={Styles.whitebg}
+						style={Styles.input}
 						value={lobbyId}
 						onChangeText={setLobbyId}
 						placeholder="Lobby ID"
 					/>
-
 					<View style={Styles.spacer} />
-
 					<Button
 						title={isExistingGame ? 'Join Game' : 'New Game'}
 						color={isExistingGame ? 'green' : '#63C132'}
 						onPress={handleGotToGame}
+						borderColor= 'green'
+						
 					/>
 				</View>
 			</View>

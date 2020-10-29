@@ -3,7 +3,7 @@ import React from 'react'
 import { Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 
-export default function About({ navigation, route }) {
+export default function Lobby({ navigation, route }) {
 	const { name } = route.params || { name: 'Invitado' }
 
 	return (
