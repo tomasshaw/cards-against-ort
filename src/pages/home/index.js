@@ -25,6 +25,9 @@ export default function Home({ navigation }) {
 		socket.on('connect', () => {
 			console.log("Conectado desde front")
 		})
+		socket.on('message', message => {
+			console.log(message)
+		})
 	  }, []);
 
 	const handleGotToGame = () => {
