@@ -16,8 +16,8 @@ export default function Home({ navigation }) {
 	const [lobbyId, setLobbyId] = useState('')
 	const isExistingGame = lobbyId.length > 2
 
-	const handleGotToGame = () => {
-		navigation.navigate('Lobby', { name })
+	const handleGotToLobby = () => {
+		navigation.navigate('Lobby', { name, lobbyId })
 	}
 
 	return (
@@ -32,13 +32,12 @@ export default function Home({ navigation }) {
 						<Image source={caoLogo} />
 					</View>
 					<View style={Styles.nameTitleContainer}>
-						<Text style={[Styles.white, Styles.mainText]}>
+						<Text style={[Styles.whiteText, Styles.mainText]}>
 							{'Cards \nAgainst \nOrt'}
 						</Text>
 					</View>
 				</View>
 				<View style={Styles.spacer}></View>
-
 				<View style={Styles.newGameInfoContainer}>
 					<TextInput
 						style={Styles.input}
@@ -54,12 +53,11 @@ export default function Home({ navigation }) {
 						placeholder="Lobby ID"
 					/>
 					<View style={Styles.spacer} />
+					<View style={Styles.spacer} />
 					<Button
 						title={isExistingGame ? 'Join Game' : 'New Game'}
 						color={isExistingGame ? 'green' : '#63C132'}
-						onPress={handleGotToGame}
-						borderColor= 'green'
-						
+						onPress={handleGotToLobby}
 					/>
 				</View>
 			</View>
