@@ -37,7 +37,7 @@ const Styles = StyleSheet.create({
 	fontFamily: 'Helvetica',
   },
   titleLayoutContainer: {
-    flex: 0.6,
+    flex: 0.5,
 	flexDirection: 'row',
 	alignItems: 'center',
 	justifyContent: 'space-around',
@@ -74,10 +74,9 @@ const Styles = StyleSheet.create({
     borderColor: '#AAAAAA',
 	borderStyle: 'solid',
 	borderWidth: 0.5,
-    marginTop: '5%',
-	marginBottom: '5%',
+	borderStartWidth: 200,
+	margin: '5%',
 	display: 'flex',
-	
   },
   joinGameBtn: {
 	display: 'flex',
@@ -90,6 +89,14 @@ const Styles = StyleSheet.create({
 	flex: 0.4,
 	marginBottom: '30%',
   },
+  buttonContainer: {
+	flexDirection:'column',
+	display: 'flex',
+	alignItems: 'center',
+	flex: 0.1,
+	margin: '20%',
+	marginEnd: '20%',
+},
   titleLobbyContainer: {
 	display: 'flex',
 	flex: 0.3,
@@ -98,18 +105,18 @@ const Styles = StyleSheet.create({
 	marginBottom: '20%',
   },
   playersContainer: {
-	//alignItems: 'center',
+	alignItems: 'flex-start',
 	display: 'flex',
 	flex: 0.5,
 	marginLeft: '10%',
 	marginEnd: '10%',
   },
   blackCardContainer: {
-	flex: 0.2,
+	flex: 0.3,
 
   },
   whiteCardsContainer: {
-	flex: 0.3,
+	flex: 0.5,
   },
   cardContainer: {
 	margin: '10%',

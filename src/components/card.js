@@ -3,7 +3,7 @@ import { Button, Text, View, useState} from 'react-native'
 import Styles from './styles'
 
 const card = () => {
-const [content, setcontent] = useState('jojo')
+const [content, setcontent] = useState('bla bla bla')
 
 
     return(

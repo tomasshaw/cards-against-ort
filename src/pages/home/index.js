@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-//import { Button } from 'react-native-elements';
 import {
 	Button,
 	Text,
@@ -7,9 +6,11 @@ import {
 	TextInput,
 	Image,
 	StatusBar,
+	Share,
 } from 'react-native'
 import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
+import { Divider } from 'react-native-elements'
 
 export default function Home({ navigation }) {
 	const [name, setName] = useState('')
@@ -19,7 +20,12 @@ export default function Home({ navigation }) {
 	const handleGotToLobby = () => {
 		navigation.navigate('Lobby', { name, lobbyId })
 	}
-
+	const shareOptions = {
+		message: 'Hola! Te estoy invitando a jugar a CAO.',
+		url: 'cao://app/lobbyId'
+	}
+	const onSharePress = () => Share.share(shareOptions)
+	
 	return (
 		<>
 			<StatusBar
@@ -37,7 +43,7 @@ export default function Home({ navigation }) {
 						</Text>
 					</View>
 				</View>
-				<View style={Styles.spacer}></View>
+				<View style={Styles.spacer} />
 				<View style={Styles.newGameInfoContainer}>
 					<TextInput
 						style={Styles.input}
@@ -53,12 +59,19 @@ export default function Home({ navigation }) {
 						placeholder="Lobby ID"
 					/>
 					<View style={Styles.spacer} />
+					<Button
+						title= 'Compartir LobbyID'
+						onPress= {onSharePress}
+						color='grey'
+					/>
 					<View style={Styles.spacer} />
 					<Button
 						title={isExistingGame ? 'Join Game' : 'New Game'}
 						color={isExistingGame ? 'green' : '#63C132'}
 						onPress={handleGotToLobby}
 					/>
+					<View style={Styles.spacer} />
+					
 				</View>
 			</View>
 		</>

@@ -12,11 +12,9 @@ export default function Lobby({ navigation, route }) {
 	const list = [
 		{
 		  nameP: 'Pepe',
-		  //idP: 123,
 		},
 		{
 		   nameP: 'Coco',
-		  // idP: 234,
 		},
 	]
 	const isValidGame = true //cambiar por min de jugadores necesario
@@ -37,16 +35,19 @@ export default function Lobby({ navigation, route }) {
 
 			<View style={Styles.playersContainer}>
 			{
-				//no logro sacarle el fondo blanco
 				list.map((item, i) => (
-				<ListItem key={i} bottomDivider>
+				<ListItem key={i} containerStyle={Styles.blackBg}>
 					<ListItem.Title> 
-						<Text style= {Styles.importantText}>{item.nameP}</Text> 
+						<Text style= {[Styles.importantText, Styles.greyText]}> Jugador {i+1}:</Text> 
 					</ListItem.Title>
+					<ListItem.Subtitle>
+						<Text style= {[Styles.importantText, Styles.whiteText]}>{item.nameP}</Text> 
+					</ListItem.Subtitle>
 				</ListItem>
 				))	
 			}
 			</View>
+			<View style={Styles.buttonContainer}>
 			<Button
 				title= 'Play now'
 				//disabled = { isValidGame ? true : false }
@@ -59,6 +60,7 @@ export default function Lobby({ navigation, route }) {
 				//onPress={() => navigation.navigate('Home')}
 				//onPress={() => navigation.push('Home')}
 			/>
+			</View>
 		</View>
 	)
 }
