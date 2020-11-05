@@ -1,16 +1,11 @@
 import React from 'react'
-import { Button, Text, View, useState} from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import Styles from './styles'
 
-const card = () => {
-const [content, setcontent] = useState('bla bla bla')
+const card = ({ item, onPress, style }) => (
+	<TouchableOpacity onPress={onPress} style={[Styles.card, style]}>
+		<Text>{item.msg}</Text>
+	</TouchableOpacity>
+)
 
-
-    return(
-        <View style={Styles.card}>
-	        <Text>Este es el {content} de una carta</Text>
-        </View>
-    );
-};
-
-export default card;
+export default card

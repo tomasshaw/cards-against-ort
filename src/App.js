@@ -1,7 +1,5 @@
 import { registerRootComponent } from 'expo'
-//import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-//import Styles from './components/styles'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from './pages/home'
