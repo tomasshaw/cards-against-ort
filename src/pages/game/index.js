@@ -9,7 +9,6 @@ import {
 import Styles from '../../components/styles'
 import Card from '../../components/card'
 import Header from '../../components/header'
-import { Divider } from 'react-native-elements'
 
 const listWhite = [
 	{ id: '1', msg: 'Respuesta graciosa 1' },
@@ -48,7 +47,7 @@ export default function Game({ navigation }) {
 						<Text style={Styles.whiteText}>Carta negra</Text>
 					</View>
 				</View>
-				<Divider style={Styles.divider} />
+				<View style={Styles.divider} />
 				<View style={Styles.whiteCardsContainer}>
 					<FlatList
 						style={Styles.cardContainer}
@@ -63,6 +62,7 @@ export default function Game({ navigation }) {
 						title="Enviar"
 						color="grey"
 						onPress={() => setScore(score + 1)}
+						style={Styles.button}
 					/>
 					<Button
 						title="Go back"

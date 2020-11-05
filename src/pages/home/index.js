@@ -7,10 +7,10 @@ import {
 	TextInput,
 	Image,
 	Share,
+	Keyboard,
 } from 'react-native'
 import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
-import { Divider } from 'react-native-elements'
 
 export default function Home({ navigation }) {
 	const [name, setName] = useState('')
@@ -45,21 +45,22 @@ export default function Home({ navigation }) {
 					value={name}
 					onChangeText={setName}
 					placeholder="Name"
+					onSubmitEditing={Keyboard.dismiss}
 				/>
-				<Divider style={Styles.divider} />
+				<View style={Styles.divider} />
 				<TextInput
 					style={Styles.input}
 					value={lobbyId}
 					onChangeText={setLobbyId}
 					placeholder="Lobby ID"
+					onSubmitEditing={Keyboard.dismiss}
 				/>
 			</View>
 			<View style={Styles.buttonContainer}>
 				<Button
 					title="Compartir LobbyID"
-					onPress={onSharePress}
 					color="grey"
-					accessibilityLabel="Compartir Lobby ID"
+					onPress={onSharePress}
 				/>
 				<Button
 					title={isExistingGame ? 'Join Game' : 'New Game'}

@@ -56,10 +56,9 @@ const Styles = StyleSheet.create({
 	},
 	logoImage: {},
 	newGameInfoContainer: {
-		//alignItems: 'center',
 		justifyContent: 'center',
-		flex: 0.25,
-		marginBottom: '40%',
+		flex: 0.3,
+		marginBottom: '20%',
 	},
 	input: {
 		backgroundColor: '#ffff',
@@ -82,9 +81,15 @@ const Styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		alignItems: 'center',
-		flex: 0.15,
+		flex: 0.2,
 		marginBottom: '5%',
 		justifyContent: 'space-between',
+		//flexDirection: 'row',
+	
+	},
+	button:{
+		borderWidth: 2,
+		borderRadius: 8,
 	},
 	joinGameBtn: {
 		display: 'flex',
@@ -131,7 +136,7 @@ const Styles = StyleSheet.create({
 		padding: 20,
 		alignContent: 'center',
 		marginVertical: 8,
-		height: 70,
+		height: 60,
 		borderRadius: 6,
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 3 },
