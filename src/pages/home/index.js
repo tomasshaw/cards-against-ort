@@ -14,25 +14,30 @@ const ENDPOINT = "http://127.0.0.1:4001";
 
 export default function Home({ navigation }) {
 	const [name, setName] = useState('')
-	const [lobbyId, setLobbyId] = useState('')
-	const isExistingGame = lobbyId.length > 2
-
+	const [roomId, setRoomId] = useState('')
+	// const isExistingGame = room.length > 2
+	
+	const socket = io(ENDPOINT, {      
+		transports: ['websocket'], upgrade: false});  
 
 	useEffect(() => {
-		const socket = io(ENDPOINT, {      
-			transports: ['websocket']});
 		socket.connect();
-		socket.on('connect', () => {
-			console.log("Conectado desde front")
-		})
-		socket.on('message', message => {
-			console.log(message)
-		})
-	  }, []);
+	},[])
+	
+	// socket.on('message', message => {
+	// 		console.log(message)});
+	
 
-	const handleGotToGame = () => {
-		navigation.navigate('About', { name })
+	// const handleNewGame = () => {
+	// 	socket.emit('create room', room, name)
+	// 	navigation.navigate('About', { name, room })
+	// }
+	const handleJoinGame = () => {
+		socket.emit('joinRoom', name, roomId)
+
+		navigation.navigate('About', {socket, name, roomId})
 	}
+
 
 	return (
 		<>
@@ -64,17 +69,22 @@ export default function Home({ navigation }) {
 					<View style={Styles.divider} />
 					<TextInput
 						style={Styles.whitebg}
-						value={lobbyId}
-						onChangeText={setLobbyId}
+						value={roomId}
+						onChangeText={value => setRoomId(value)}
 						placeholder="Lobby ID"
 					/>
 
 					<View style={Styles.spacer} />
 
+					{/* <Button
+						title={'New Game'}
+						color={'green'}
+						onPress={handleJoinGame}
+					/> */}
 					<Button
-						title={isExistingGame ? 'Join Game' : 'New Game'}
-						color={isExistingGame ? 'green' : '#63C132'}
-						onPress={handleGotToGame}
+						title={'Join Game'}
+						color={'green'}
+						onPress={handleJoinGame}
 					/>
 				</View>
 			</View>
