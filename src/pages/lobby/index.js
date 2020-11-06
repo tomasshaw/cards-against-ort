@@ -15,8 +15,16 @@ export default function Lobby({ navigation, route }) {
 		{
 			nameP: 'Coco',
 		},
+		{
+			nameP: name,
+		},
 	]
-	const isValidGame = true //cambiar por min de jugadores necesario
+
+	const isValidGame = (list) =>{
+		if(list.length > 2) {
+			return true
+		} 
+	} 
 
 	const handleGotToGame = () => {
 		navigation.navigate('Game')
@@ -57,8 +65,8 @@ export default function Lobby({ navigation, route }) {
 			<View style={Styles.buttonContainer}>
 				<Button
 					title="Play now"
-					//disabled = { isValidGame ? true : false }
-					color={isValidGame ? 'green' : '#63C132'}
+					disabled = { isValidGame(list) ? false : true}
+					color= 'green'
 					onPress={handleGotToGame}
 				/>
 				<Button
