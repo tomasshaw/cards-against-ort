@@ -16,28 +16,43 @@ const ENDPOINT = "http://127.0.0.1:4001";
 
 export default function Home({ navigation }) {
 	const [name, setName] = useState('')
+
 	const [lobbyId, setLobbyId] = useState('')
 	const isExistingGame = lobbyId.length > 2
 
 	const handleGotToLobby = () => {
 		navigation.navigate('Lobby', { name, lobbyId })
+	}
 
+
+	const [roomId, setRoomId] = useState('')
+	// const isExistingGame = room.length > 2
+	
+	const socket = io(ENDPOINT, {      
+		transports: ['websocket'], upgrade: false});  
 
 	useEffect(() => {
-		const socket = io(ENDPOINT, {      
-			transports: ['websocket']});
 		socket.connect();
-		socket.on('connect', () => {
-			console.log("Conectado desde front")
-		})
-	  }, []);
+	},[])
+	
+	// socket.on('message', message => {
+	// 		console.log(message)});
+	
 
+	// const handleNewGame = () => {
+	// 	socket.emit('create room', room, name)
+	// 	navigation.navigate('About', { name, room })
+	// 
+	const handleJoinGame = () => {
+		socket.emit('joinRoom', name, roomId)
+		navigation.navigate('About', {socket, name, roomId})
 	}
 	const shareOptions = {
 		message: 'Hola! Te estoy invitando a jugar a CAO.',
 		url: 'cao://app/lobbyId',
 	}
 	const onSharePress = () => Share.share(shareOptions)
+
 
 	return (
 		<SafeAreaView style={Styles.container}>
