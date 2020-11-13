@@ -4,6 +4,9 @@ import { SafeAreaView, Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
 
+
+const Drawer = createDrawerNavigator();
+
 export default function Lobby({ navigation, route }) {
 	const { name } = route.params || { name: 'Invitado' }
 	const { lobbyId } = route.params
@@ -31,6 +34,7 @@ export default function Lobby({ navigation, route }) {
 	}
 
 	return (
+	
 		<SafeAreaView style={Styles.container}>
 			<StatusBar style="none" />
 			<View style={Styles.titleLobbyContainer}>
@@ -68,12 +72,6 @@ export default function Lobby({ navigation, route }) {
 					disabled = { isValidGame(list) ? false : true}
 					color= 'green'
 					onPress={handleGotToGame}
-				/>
-				<Button
-					title="Go back"
-					onPress={() => navigation.goBack()}
-					//onPress={() => navigation.navigate('Home')}
-					//onPress={() => navigation.push('Home')}
 				/>
 			</View>
 		</SafeAreaView>
