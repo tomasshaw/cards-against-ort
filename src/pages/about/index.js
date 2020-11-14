@@ -4,8 +4,6 @@ import { Button, Text, TextInput, View } from 'react-native'
 import Styles from '../../components/styles'
 
 
-
-
 const ChatMessages = ({chat}) => {
 	return (
 		<View>
