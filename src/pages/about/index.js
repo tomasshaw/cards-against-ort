@@ -25,14 +25,10 @@ export default function About({ navigation, route }) {
 		return () => { socket.disconnect()}
 	},[])
 
-	
-
 	const submitChatMessage = () => {
 		socket.emit('chat update', (mensaje));
 		setMensaje('');
 	}
-
-	
 
 	return (
 		<View style={Styles.container}>
@@ -50,7 +46,6 @@ export default function About({ navigation, route }) {
 			chat = {chat}
 			/>
 			
-
 			<Button
 				title="Go back"
 				onPress={() => navigation.goBack()}
