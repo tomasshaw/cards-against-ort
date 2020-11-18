@@ -1,18 +1,23 @@
 import React from 'react'
 import GlobalContext from '../../global/context/index'
 
+import io from 'socket.io-client'
+const ENDPOINT = "http://127.0.0.1:4001";
+const socket = io(ENDPOINT);  
+
 const GlobalProvider = () =>{
 	useEffect(() =>{
-        //seteo data de socket
-        //puede estar en App tambien
-        //Tiene que estar en un componente superior
+        socket.connect()
     }, [])
     
     return(
         <GlobalContext.Provider value={{
-            //aca todos los datos
+            socket: socket
         }}>
-           { /* Aca puedo inyectar cualquier arbol de componentes que quiero que tenga acceso a esta data*/}
+           <Home />
+           <Lobby />
+           <Game />
+           <About />
         </GlobalContext.Provider>     
     )
 }

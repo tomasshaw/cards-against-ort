@@ -12,9 +12,12 @@ import {
 import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
 import io from 'socket.io-client'
+import context from '../../global/context'
+import GlobalProvider from '../../services/global'
 const ENDPOINT = "http://127.0.0.1:4001";
 
 export default function Home({ navigation }) {
+	
 	const [name, setName] = useState('')
 
 	const [lobbyId, setLobbyId] = useState('')
@@ -55,47 +58,49 @@ export default function Home({ navigation }) {
 
 
 	return (
-		<SafeAreaView style={Styles.container}>
-			<View style={Styles.titleLayoutContainer}>
-				<View style={Styles.logoContainer}>
-					<Image source={caoLogo} />
+		<GlobalProvider.Consumer>
+			<SafeAreaView style={Styles.container}>
+				<View style={Styles.titleLayoutContainer}>
+					<View style={Styles.logoContainer}>
+						<Image source={caoLogo} />
+					</View>
+					<View style={Styles.nameTitleContainer}>
+						<Text style={[Styles.whiteText, Styles.mainText]}>
+							{'Cards \nAgainst \nOrt'}
+						</Text>
+					</View>
 				</View>
-				<View style={Styles.nameTitleContainer}>
-					<Text style={[Styles.whiteText, Styles.mainText]}>
-						{'Cards \nAgainst \nOrt'}
-					</Text>
+				<View style={Styles.spacer} />
+				<View style={Styles.newGameInfoContainer}>
+					<TextInput
+						style={Styles.input}
+						value={name}
+						onChangeText={setName}
+						placeholder="Name"
+						onSubmitEditing={Keyboard.dismiss}
+					/>
+					<View style={Styles.divider} />
+					<TextInput
+						style={Styles.input}
+						value={lobbyId}
+						onChangeText={setLobbyId}
+						placeholder="Lobby ID"
+						onSubmitEditing={Keyboard.dismiss}
+					/>
 				</View>
-			</View>
-			<View style={Styles.spacer} />
-			<View style={Styles.newGameInfoContainer}>
-				<TextInput
-					style={Styles.input}
-					value={name}
-					onChangeText={setName}
-					placeholder="Name"
-					onSubmitEditing={Keyboard.dismiss}
-				/>
-				<View style={Styles.divider} />
-				<TextInput
-					style={Styles.input}
-					value={lobbyId}
-					onChangeText={setLobbyId}
-					placeholder="Lobby ID"
-					onSubmitEditing={Keyboard.dismiss}
-				/>
-			</View>
-			<View style={Styles.buttonContainer}>
-				<Button
-					title="Compartir LobbyID"
-					color="grey"
-					onPress={onSharePress}
-				/>
-				<Button
-					title={isExistingGame ? 'Join Game' : 'New Game'}
-					color={isExistingGame ? 'green' : '#63C132'}
-					onPress={handleGotToLobby}
-				/>
-			</View>
-		</SafeAreaView>
+				<View style={Styles.buttonContainer}>
+					<Button
+						title="Compartir LobbyID"
+						color="grey"
+						onPress={onSharePress}
+					/>
+					<Button
+						title={isExistingGame ? 'Join Game' : 'New Game'}
+						color={isExistingGame ? 'green' : '#63C132'}
+						onPress={handleGotToLobby}
+					/>
+				</View>
+			</SafeAreaView>
+		</GlobalProvider.Consumer>
 	)
 }

@@ -5,7 +5,7 @@ import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
 
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
 export default function Lobby({ navigation, route }) {
 	const { name } = route.params || { name: 'Invitado' }
