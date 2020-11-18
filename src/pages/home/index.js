@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
 	SafeAreaView,
 	Button,
@@ -11,13 +11,12 @@ import {
 } from 'react-native'
 import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
-import io from 'socket.io-client'
-import context from '../../global/context'
-import GlobalProvider from '../../services/global'
-const ENDPOINT = "http://127.0.0.1:4001";
+import SocketContext from '../../global/context/index'
 
 export default function Home({ navigation }) {
-	
+	const socket = useContext(SocketContext)
+	console.log(socket)
+
 	const [name, setName] = useState('')
 
 	const [lobbyId, setLobbyId] = useState('')
@@ -31,12 +30,12 @@ export default function Home({ navigation }) {
 	const [roomId, setRoomId] = useState('')
 	// const isExistingGame = room.length > 2
 	
-	const socket = io(ENDPOINT, {      
-		transports: ['websocket'], upgrade: false});  
+	// // const socket = io(ENDPOINT, {      
+	// // 	transports: ['websocket'], upgrade: false});  
 
-	useEffect(() => {
-		socket.connect();
-	},[])
+	// // useEffect(() => {
+	// // 	socket.connect();
+	// // },[])
 	
 	// socket.on('message', message => {
 	// 		console.log(message)});
@@ -58,49 +57,47 @@ export default function Home({ navigation }) {
 
 
 	return (
-		<GlobalProvider.Consumer>
-			<SafeAreaView style={Styles.container}>
-				<View style={Styles.titleLayoutContainer}>
-					<View style={Styles.logoContainer}>
-						<Image source={caoLogo} />
-					</View>
-					<View style={Styles.nameTitleContainer}>
-						<Text style={[Styles.whiteText, Styles.mainText]}>
-							{'Cards \nAgainst \nOrt'}
-						</Text>
-					</View>
+		<SafeAreaView style={Styles.container}>
+			<View style={Styles.titleLayoutContainer}>
+				<View style={Styles.logoContainer}>
+					<Image source={caoLogo} />
 				</View>
-				<View style={Styles.spacer} />
-				<View style={Styles.newGameInfoContainer}>
-					<TextInput
-						style={Styles.input}
-						value={name}
-						onChangeText={setName}
-						placeholder="Name"
-						onSubmitEditing={Keyboard.dismiss}
-					/>
-					<View style={Styles.divider} />
-					<TextInput
-						style={Styles.input}
-						value={lobbyId}
-						onChangeText={setLobbyId}
-						placeholder="Lobby ID"
-						onSubmitEditing={Keyboard.dismiss}
-					/>
+				<View style={Styles.nameTitleContainer}>
+					<Text style={[Styles.whiteText, Styles.mainText]}>
+						{'Cards \nAgainst \nOrt'}
+					</Text>
 				</View>
-				<View style={Styles.buttonContainer}>
-					<Button
-						title="Compartir LobbyID"
-						color="grey"
-						onPress={onSharePress}
-					/>
-					<Button
-						title={isExistingGame ? 'Join Game' : 'New Game'}
-						color={isExistingGame ? 'green' : '#63C132'}
-						onPress={handleGotToLobby}
-					/>
-				</View>
-			</SafeAreaView>
-		</GlobalProvider.Consumer>
+			</View>
+			<View style={Styles.spacer} />
+			<View style={Styles.newGameInfoContainer}>
+				<TextInput
+					style={Styles.input}
+					value={name}
+					onChangeText={setName}
+					placeholder="Name"
+					onSubmitEditing={Keyboard.dismiss}
+				/>
+				<View style={Styles.divider} />
+				<TextInput
+					style={Styles.input}
+					value={lobbyId}
+					onChangeText={setLobbyId}
+					placeholder="Lobby ID"
+					onSubmitEditing={Keyboard.dismiss}
+				/>
+			</View>
+			<View style={Styles.buttonContainer}>
+				<Button
+					title="Compartir LobbyID"
+					color="grey"
+					onPress={onSharePress}
+				/>
+				<Button
+					title={isExistingGame ? 'Join Game' : 'New Game'}
+					color={isExistingGame ? 'green' : '#63C132'}
+					onPress={handleGotToLobby}
+				/>
+			</View>
+		</SafeAreaView>
 	)
 }
