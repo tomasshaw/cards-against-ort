@@ -38,7 +38,6 @@ export default function Game({ navigation }) {
 	}
 
 	return (
-		//Claramente aca hay que crear MUCHOS componentes
 		<SafeAreaView style={Styles.container}>
 			<Header round={round} score={score} />
 			<View style={Styles.bodyGame}>

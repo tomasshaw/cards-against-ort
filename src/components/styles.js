@@ -5,7 +5,6 @@ const Styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: 'black',
 		padding: 8,
-		//fontFamily: 'Helvetica',
 	},
 	spacer: {
 		minHeight: 40,
@@ -21,24 +20,19 @@ const Styles = StyleSheet.create({
 	},
 	whiteText: {
 		color: '#ffff',
-		//fontFamily: 'Roboto',
 	},
 	blackText: {
 		color: '#0000',
-		//fontFamily: 'Roboto',
 	},
 	greyText: {
 		color: '#828282',
-		//fontFamily: 'Roboto',
 	},
 	mainText: {
-		//fontFamily: 'Roboto',
 		letterSpacing: 1,
 		fontSize: 40,
 		fontWeight: 'bold',
 	},
 	importantText: {
-		//fontFamily: 'Roboto',
 		letterSpacing: 1,
 		fontSize: 20,
 	},
@@ -84,10 +78,8 @@ const Styles = StyleSheet.create({
 		flex: 0.2,
 		marginBottom: '5%',
 		justifyContent: 'space-between',
-		//flexDirection: 'row',
-	
 	},
-	button:{
+	button: {
 		borderWidth: 2,
 		borderRadius: 8,
 	},
@@ -160,8 +152,6 @@ const Styles = StyleSheet.create({
 		padding: '0%',
 		flex: 1,
 	},
-
-	// : {},
 })
 
 export default Styles

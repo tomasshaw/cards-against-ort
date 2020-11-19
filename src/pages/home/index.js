@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import {
 	SafeAreaView,
 	Button,
@@ -26,35 +26,32 @@ export default function Home({ navigation }) {
 		navigation.navigate('Lobby', { name, lobbyId })
 	}
 
-
 	const [roomId, setRoomId] = useState('')
 	// const isExistingGame = room.length > 2
-	
-	// // const socket = io(ENDPOINT, {      
-	// // 	transports: ['websocket'], upgrade: false});  
+
+	// // const socket = io(ENDPOINT, {
+	// // 	transports: ['websocket'], upgrade: false});
 
 	// // useEffect(() => {
 	// // 	socket.connect();
 	// // },[])
-	
+
 	// socket.on('message', message => {
 	// 		console.log(message)});
-	
 
 	// const handleNewGame = () => {
 	// 	socket.emit('create room', room, name)
 	// 	navigation.navigate('About', { name, room })
-	// 
+	//
 	const handleJoinGame = () => {
 		socket.emit('joinRoom', name, roomId)
-		navigation.navigate('About', {socket, name, roomId})
+		navigation.navigate('About', { socket, name, roomId })
 	}
 	const shareOptions = {
 		message: 'Hola! Te estoy invitando a jugar a CAO.',
 		url: 'cao://app/lobbyId',
 	}
 	const onSharePress = () => Share.share(shareOptions)
-
 
 	return (
 		<SafeAreaView style={Styles.container}>

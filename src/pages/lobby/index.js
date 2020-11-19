@@ -3,9 +3,6 @@ import React, { useContext } from 'react'
 import { SafeAreaView, Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
-import SocketContext from '../../global/context'
-
-// const Drawer = createDrawerNavigator();
 
 export default function Lobby({ navigation, route }) {
 	const socket = useContext(SocketContext);
@@ -24,11 +21,11 @@ export default function Lobby({ navigation, route }) {
 		},
 	]
 
-	const isValidGame = (list) =>{
-		if(list.length > 2) {
+	const isValidGame = list => {
+		if (list.length > 2) {
 			return true
-		} 
-	} 
+		}
+	}
 
 	const handleGoToGame = () => {
 		socket.emit('newRound', lobbyId)
@@ -37,7 +34,6 @@ export default function Lobby({ navigation, route }) {
 	}
 
 	return (
-	
 		<SafeAreaView style={Styles.container}>
 			<StatusBar style="none" />
 			<View style={Styles.titleLobbyContainer}>
