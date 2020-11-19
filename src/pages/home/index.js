@@ -22,7 +22,7 @@ export default function Home({ navigation }) {
 	const [lobbyId, setLobbyId] = useState('')
 	const isExistingGame = lobbyId.length > 2
 
-	const handleGotToLobby = () => {
+	const handleGoToLobby = () => {
 		navigation.navigate('Lobby', { name, lobbyId })
 	}
 
@@ -95,7 +95,7 @@ export default function Home({ navigation }) {
 				<Button
 					title={isExistingGame ? 'Join Game' : 'New Game'}
 					color={isExistingGame ? 'green' : '#63C132'}
-					onPress={handleGotToLobby}
+					onPress={handleGoToLobby}
 				/>
 			</View>
 		</SafeAreaView>

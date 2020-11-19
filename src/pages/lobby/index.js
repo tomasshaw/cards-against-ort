@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useContext } from 'react'
 import { SafeAreaView, Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
-
+import SocketContext from '../../global/context'
 
 // const Drawer = createDrawerNavigator();
 
 export default function Lobby({ navigation, route }) {
+	const socket = useContext(SocketContext);
 	const { name } = route.params || { name: 'Invitado' }
 	const { lobbyId } = route.params
 
@@ -29,7 +30,9 @@ export default function Lobby({ navigation, route }) {
 		} 
 	} 
 
-	const handleGotToGame = () => {
+	const handleGoToGame = () => {
+		socket.emit('newRound', lobbyId)
+		console.log('log desde lobby')
 		navigation.navigate('Game')
 	}
 
@@ -71,7 +74,7 @@ export default function Lobby({ navigation, route }) {
 					title="Play now"
 					disabled = { isValidGame(list) ? false : true}
 					color= 'green'
-					onPress={handleGotToGame}
+					onPress={handleGoToGame}
 				/>
 			</View>
 		</SafeAreaView>
