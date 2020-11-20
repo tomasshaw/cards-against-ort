@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { SafeAreaView, Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
+import SocketContext from '../../global/context/index'
 
 export default function Lobby({ navigation, route }) {
 	const socket = useContext(SocketContext);

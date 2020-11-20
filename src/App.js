@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'react-native-gesture-handler'
 import io from 'socket.io-client'
 import { registerRootComponent } from 'expo'
@@ -9,7 +9,7 @@ import {
 import Home from './pages/home'
 import Lobby from './pages/lobby'
 import Game from './pages/game'
-
+import SocketContext from './global/context/index'
 const ENDPOINT = 'http://127.0.0.1:4001'
 const socket = io(ENDPOINT)
 

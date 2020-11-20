@@ -15,7 +15,6 @@ import SocketContext from '../../global/context/index'
 
 export default function Home({ navigation }) {
 	const socket = useContext(SocketContext)
-	console.log(socket)
 
 	const [name, setName] = useState('')
 
@@ -23,6 +22,7 @@ export default function Home({ navigation }) {
 	const isExistingGame = lobbyId.length > 2
 
 	const handleGoToLobby = () => {
+		socket.emit('joinRoom', name, lobbyId)
 		navigation.navigate('Lobby', { name, lobbyId })
 	}
 
