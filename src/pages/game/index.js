@@ -9,6 +9,8 @@ import {
 import Styles from '../../components/styles'
 import Card from '../../components/card'
 import Header from '../../components/header'
+import Modal from '../../components/modalWinner'
+import SocketContext from '../../global/context/index'
 
 const listWhite = [
 	{ id: '1', msg: 'Respuesta graciosa 1' },
@@ -25,6 +27,24 @@ export default function Game({ navigation }) {
 	const [selectedId, setSelectedId] = useState(null)
 	const [round, setRound] = useState(0)
 	const [score, setScore] = useState(0)
+	const [modalVisible, setModalVisible] = useState(false);
+	const [winner, setWinner] = useState('');
+  
+
+	useEffect(() => {
+		socket.on('getWinner', room => {
+			setWinner(room.winner)
+		})
+		return () => {
+			socket.disconnect()
+		}
+	}, [])
+
+	const weHaveAWinner = () => {
+		if(winner !== ''){
+		  setModalVisible(modalVisible);
+		}
+	}
 
 	const renderItem = ({ item }) => {
 		const backgroundColor = item.id === selectedId ? 'grey' : '#ffff'
@@ -39,6 +59,7 @@ export default function Game({ navigation }) {
 
 	return (
 		<SafeAreaView style={Styles.container}>
+			<Modal />
 			<Header round={round} score={score} />
 			<View style={Styles.bodyGame}>
 				<View style={Styles.blackCardContainer}>
