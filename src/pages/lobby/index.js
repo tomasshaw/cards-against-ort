@@ -5,36 +5,51 @@ import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
 import SocketContext from '../../global/context/index'
 import roomsGlobal from '../../global/rooms'
+//import player from '../../../../../cardsback/backend-cardsagainst/utils/player'
+import {getCurrentPlayer} from '../../../../../cardsback/backend-cardsagainst/utils/players'
 
 
 export default function Lobby({ navigation, route }) {
 	const context = useContext(SocketContext);
 	const socket = context.socket;
-	const { name } = route.params || { name: 'Invitado' }
+	const { name } = route.params || { name : 'Invitado' }
 	const { newRoom } = route.params 
-	const { roomId } = context.roomId
-	const [players, setPlayers] = useState([])
+	const { roomId } = route.params 
+	//console.log(newRoom)
+	//const roomId = newRoom.roomId
+	const [listPlayers, setListPlayers] = useState(newRoom.players)
+	//const player = getCurrentPlayer(socket)
 	
+	console.log('info desde lobby')
+	//console.log(players)
 	console.log(newRoom)
+	console.log(name)
+		
+	
+	//console.log(newRoom)
 	//console.log(socket)
-	console.log(context)
-	console.log(roomsGlobal)
+	//console.log(context)
+	//console.log(roomsGlobal)
 	const onSharePress = () => Share.share(shareOptions)
 		
 	const shareOptions = {
 		message:`Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${roomId}`,
 		//url: 'cao://app/lobbyId',
 	}
-	
+
 
 	useEffect(() => {
-		socket.on('getPlayers', player => {
-			setPlayers(players => [...players, player])
-		})
-		return () => {
-			socket.disconnect()
-		}
+		setListPlayers(listPlayers => [...listPlayers, {name}])
 	}, [])
+
+	// useEffect(() => {
+	// 	socket.on('getPlayers', player => {
+	// 		setPlayers(players => [...players, player])
+	// 	})
+	// 	return () => {
+	// 		socket.disconnect()
+	// 	}
+	// }, [])
 
 	const isValidGame = players => {
 		if (players.length > 2) {
@@ -60,12 +75,12 @@ export default function Lobby({ navigation, route }) {
 					Sala de juego
 				</Text>
 				<Text style={[Styles.greyText, Styles.importantText]}>
-					#{roomId}
+					#{newRoom.id}
 				</Text>
 			</View>
 
 			<View style={Styles.playersContainer}>
-				{players.map((player, i) => (
+				{newRoom.players.map((player, i) => (
 					<ListItem key={i} containerStyle={Styles.blackBg}>
 						<ListItem.Title>
 							<Text style={[Styles.importantText, Styles.greyText]}>
@@ -74,7 +89,7 @@ export default function Lobby({ navigation, route }) {
 						</ListItem.Title>
 						<ListItem.Subtitle>
 							<Text style={[Styles.importantText, Styles.whiteText]}>
-								{player.name}
+								{name}
 							</Text>
 						</ListItem.Subtitle>
 					</ListItem>
@@ -88,7 +103,7 @@ export default function Lobby({ navigation, route }) {
 				/>
 				<Button
 					title="Play now"
-					disabled = { isValidGame(players) ? false : true}
+					disabled = { isValidGame(newRoom.players) ? false : true}
 					color= 'green'
 					onPress={handleGoToGame}
 				/>

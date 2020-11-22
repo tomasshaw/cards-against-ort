@@ -52,11 +52,14 @@ export default function Home({ navigation }) {
 	const handleGoToLobby = () => {
 		//socket.emit('joinRoom', name, roomId)
 		const newRoom = createRoom(roomId)
-		const player = createPlayer(socket.id)
+		const player = createPlayer(socket)
+		player.name = name
+		player.roomId = roomId
+		//console.log(player)
 		newRoom.players.push(player);
-		console.log(newRoom)
-		console.log(roomsFront)
-		navigation.navigate('Lobby', { name, newRoom})
+		//console.log(newRoom)
+	
+		navigation.navigate('Lobby', {newRoom, name, roomId} )
 	}
 
 
@@ -93,7 +96,7 @@ export default function Home({ navigation }) {
 					style={Styles.input}
 					value={name}
 					onChangeText={setName}
-					placeholder="Name"
+					placeholder="Nombre"
 					onSubmitEditing={Keyboard.dismiss}
 				/>
 				<View style={Styles.divider} />
@@ -103,7 +106,7 @@ export default function Home({ navigation }) {
 					style={Styles.input}
 					value={roomId}
 					onChangeText={setRoomId}
-					placeholder="Lobby ID"
+					placeholder="Room ID"
 					onSubmitEditing={Keyboard.dismiss}
 				/>
 			
