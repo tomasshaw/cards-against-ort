@@ -10,20 +10,18 @@ import Home from './pages/home'
 import Lobby from './pages/lobby'
 import Game from './pages/game'
 import SocketContext from './global/context/index'
+
 const ENDPOINT = 'http://127.0.0.1:4001'
 const socket = io(ENDPOINT)
 
-
 const Stack = createStackNavigator()
 
-export default function App() {
-		useEffect(() =>{
-			socket.connect()
-		}, [])
-		 
 
+export default function App() {
 	return (
-		<SocketContext.Provider value={socket}>
+		<SocketContext.Provider value={{
+			socket: socket,
+			roomId: ''}}>
 			<NavigationContainer>
 				<Stack.Navigator initialRouteName="Home">
 					<Stack.Screen

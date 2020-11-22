@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
 	SafeAreaView,
 	Button,
@@ -12,25 +12,53 @@ import {
 import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
 import SocketContext from '../../global/context/index'
+import roomsGlobal from '../../global/rooms'
+import rooms from '../../../../../cardsback/backend-cardsagainst/utils/rooms'
+import {createRoom} from '../../../../../cardsback/backend-cardsagainst/utils/rooms'
+import {createPlayer} from '../../../../../cardsback/backend-cardsagainst/assets/gameLogic'
+
+const createUID = () => {
+	return "room-" + Math.floor(Math.random() * 999999);
+}
 
 export default function Home({ navigation }) {
-	const socket = useContext(SocketContext)
-
+	const context = useContext(SocketContext)
+	const socket = context.socket;
+	const UID = createUID();
+	const [roomsFront, setRoomsFront] = useState(rooms)
 	const [name, setName] = useState('')
+	const [roomId, setRoomId] = useState('')
+	context.roomId = roomId;
+	console.log(roomId);
 
-	const [lobbyId, setLobbyId] = useState('')
-	const isExistingGame = lobbyId.length > 2
+
+	useEffect(() =>{
+		socket.connect()
+	}, []) 
+
+
+	useEffect(() =>{
+		setRoomId(UID)
+	}, []) 
+	
+	 const isValidRoom = roomId => {
+		 //rooms.some(rooms.find(e => e === roomId))
+		 true
+	 };
+	
+	console.log(socket)
+
 
 	const handleGoToLobby = () => {
-		socket.emit('joinRoom', name, lobbyId)
-		navigation.navigate('Lobby', { name, lobbyId })
+		//socket.emit('joinRoom', name, roomId)
+		const newRoom = createRoom(roomId)
+		const player = createPlayer(socket.id)
+		newRoom.players.push(player);
+		console.log(newRoom)
+		console.log(roomsFront)
+		navigation.navigate('Lobby', { name, newRoom})
 	}
 
-	const [roomId, setRoomId] = useState('')
-	// const isExistingGame = room.length > 2
-
-	// // const socket = io(ENDPOINT, {
-	// // 	transports: ['websocket'], upgrade: false});
 
 	// // useEffect(() => {
 	// // 	socket.connect();
@@ -43,15 +71,8 @@ export default function Home({ navigation }) {
 	// 	socket.emit('create room', room, name)
 	// 	navigation.navigate('About', { name, room })
 	//
-	const handleJoinGame = () => {
-		socket.emit('joinRoom', name, roomId)
-		navigation.navigate('About', { socket, name, roomId })
-	}
-	const shareOptions = {
-		message: 'Hola! Te estoy invitando a jugar a CAO.',
-		url: 'cao://app/lobbyId',
-	}
-	const onSharePress = () => Share.share(shareOptions)
+
+
 
 	return (
 		<SafeAreaView style={Styles.container}>
@@ -67,6 +88,7 @@ export default function Home({ navigation }) {
 			</View>
 			<View style={Styles.spacer} />
 			<View style={Styles.newGameInfoContainer}>
+			<Text sytle={Styles.whiteText}>Nombre: </Text>
 				<TextInput
 					style={Styles.input}
 					value={name}
@@ -75,23 +97,29 @@ export default function Home({ navigation }) {
 					onSubmitEditing={Keyboard.dismiss}
 				/>
 				<View style={Styles.divider} />
+				<View style={Styles.spacer} />
+				<Text sytle={Styles.whiteText}>Si tenes numero de sala, ingresalo aqui:</Text>
 				<TextInput
 					style={Styles.input}
-					value={lobbyId}
-					onChangeText={setLobbyId}
+					value={roomId}
+					onChangeText={setRoomId}
 					placeholder="Lobby ID"
 					onSubmitEditing={Keyboard.dismiss}
 				/>
+			
 			</View>
 			<View style={Styles.buttonContainer}>
 				<Button
-					title="Compartir LobbyID"
-					color="grey"
-					onPress={onSharePress}
+					title='Unirme a la sala'
+					disabled= {isValidRoom(roomId)? false : true}
+					color='green' 
+					onPress={handleGoToLobby}
 				/>
+
+			<Text sytle={Styles.whiteText}>Si no, crea una nueva sala:</Text>
 				<Button
-					title={isExistingGame ? 'Join Game' : 'New Game'}
-					color={isExistingGame ? 'green' : '#63C132'}
+					title='Crear sala'
+					color='green' 
 					onPress={handleGoToLobby}
 				/>
 			</View>

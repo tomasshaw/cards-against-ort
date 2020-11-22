@@ -51,6 +51,8 @@ const Styles = StyleSheet.create({
 	logoImage: {},
 	newGameInfoContainer: {
 		justifyContent: 'center',
+		alignContent: 'center',
+		textAlign:'center',
 		flex: 0.3,
 		marginBottom: '20%',
 	},
