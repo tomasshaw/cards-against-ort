@@ -1,49 +1,35 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { useContext, useState, useEffect} from 'react'
+import React, { useContext } from 'react'
 import { SafeAreaView, Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
 import SocketContext from '../../global/context/index'
-import roomsGlobal from '../../global/rooms'
-
 
 export default function Lobby({ navigation, route }) {
-	const context = useContext(SocketContext);
-	const socket = context.socket;
+	const socket = useContext(SocketContext);
 	const { name } = route.params || { name: 'Invitado' }
-	const { newRoom } = route.params 
-	const { roomId } = context.roomId
-	const [players, setPlayers] = useState([])
-	
-	console.log(newRoom)
-	//console.log(socket)
-	console.log(context)
-	console.log(roomsGlobal)
-	const onSharePress = () => Share.share(shareOptions)
-		
-	const shareOptions = {
-		message:`Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${roomId}`,
-		//url: 'cao://app/lobbyId',
-	}
-	
+	const { lobbyId } = route.params
 
-	useEffect(() => {
-		socket.on('getPlayers', player => {
-			setPlayers(players => [...players, player])
-		})
-		return () => {
-			socket.disconnect()
-		}
-	}, [])
+	const list = [
+		{
+			nameP: 'Pepe',
+		},
+		{
+			nameP: 'Coco',
+		},
+		{
+			nameP: name,
+		},
+	]
 
-	const isValidGame = players => {
-		if (players.length > 2) {
+	const isValidGame = list => {
+		if (list.length > 2) {
 			return true
 		}
 	}
 
 	const handleGoToGame = () => {
-		socket.emit('newRound', roomId)
+		socket.emit('newRound', lobbyId)
 		console.log('log desde lobby')
 		navigation.navigate('Game')
 	}
@@ -60,12 +46,12 @@ export default function Lobby({ navigation, route }) {
 					Sala de juego
 				</Text>
 				<Text style={[Styles.greyText, Styles.importantText]}>
-					#{roomId}
+					#{lobbyId}
 				</Text>
 			</View>
 
 			<View style={Styles.playersContainer}>
-				{players.map((player, i) => (
+				{list.map((item, i) => (
 					<ListItem key={i} containerStyle={Styles.blackBg}>
 						<ListItem.Title>
 							<Text style={[Styles.importantText, Styles.greyText]}>
@@ -74,7 +60,7 @@ export default function Lobby({ navigation, route }) {
 						</ListItem.Title>
 						<ListItem.Subtitle>
 							<Text style={[Styles.importantText, Styles.whiteText]}>
-								{player.name}
+								{item.nameP}
 							</Text>
 						</ListItem.Subtitle>
 					</ListItem>
@@ -82,13 +68,8 @@ export default function Lobby({ navigation, route }) {
 			</View>
 			<View style={Styles.buttonContainer}>
 				<Button
-					title="Compartir LobbyID"
-					color="grey"
-					onPress={onSharePress}
-				/>
-				<Button
 					title="Play now"
-					disabled = { isValidGame(players) ? false : true}
+					disabled = { isValidGame(list) ? false : true}
 					color= 'green'
 					onPress={handleGoToGame}
 				/>
