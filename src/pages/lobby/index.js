@@ -1,67 +1,50 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useContext, useState, useEffect} from 'react'
-import { SafeAreaView, Button, Text, View } from 'react-native'
+import { SafeAreaView, Share, Button, Text, View } from 'react-native'
 import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
 import SocketContext from '../../global/context/index'
-import roomsGlobal from '../../global/rooms'
-//import player from '../../../../../cardsback/backend-cardsagainst/utils/player'
-import {getCurrentPlayer} from '../../../../../cardsback/backend-cardsagainst/utils/players'
 
 
 export default function Lobby({ navigation, route }) {
-	const context = useContext(SocketContext);
-	const socket = context.socket;
-	const { name } = route.params || { name : 'Invitado' }
-	const { newRoom } = route.params 
-	const { roomId } = route.params 
-	//console.log(newRoom)
-	//const roomId = newRoom.roomId
-	const [listPlayers, setListPlayers] = useState(newRoom.players)
+	const socket = useContext(SocketContext);
+	const [name, setName] = useState('')
+	const [room, setRoom] = useState('')
+	const {roomId} = route.params;
+	//const {name} = route.params;
+	const [listPlayers, setListPlayers] = useState([])
 	//const player = getCurrentPlayer(socket)
 	
-	console.log('info desde lobby')
-	//console.log(players)
-	console.log(newRoom)
-	console.log(name)
-		
-	
-	//console.log(newRoom)
-	//console.log(socket)
-	//console.log(context)
-	//console.log(roomsGlobal)
 	const onSharePress = () => Share.share(shareOptions)
 		
 	const shareOptions = {
-		message:`Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${roomId}`,
-		//url: 'cao://app/lobbyId',
+		message:`Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${room.id}`,
 	}
 
-
 	useEffect(() => {
-		setListPlayers(listPlayers => [...listPlayers, {name}])
-	}, [])
+		socket.on('updatePlayers', players => {
+		  	setListPlayers(players);
+		});
+		socket.on('getPlayerName', name => {
+			setName(name);
+	  	});
+	  	socket.on('getRoom', room => {
+			setRoom(room)
+		})
+	});
 
-	// useEffect(() => {
-	// 	socket.on('getPlayers', player => {
-	// 		setPlayers(players => [...players, player])
-	// 	})
-	// 	return () => {
-	// 		socket.disconnect()
-	// 	}
-	// }, [])
-
-	const isValidGame = players => {
-		if (players.length > 2) {
+	const isValidGame = () => {
+		if (listPlayers.length > 0) {
 			return true
 		}
 	}
 
 	const handleGoToGame = () => {
-		socket.emit('newRound', roomId)
+		socket.emit('newRound', room.id)
 		console.log('log desde lobby')
 		navigation.navigate('Game')
 	}
+
 
 	return (
 		<SafeAreaView style={Styles.container}>
@@ -75,12 +58,12 @@ export default function Lobby({ navigation, route }) {
 					Sala de juego
 				</Text>
 				<Text style={[Styles.greyText, Styles.importantText]}>
-					#{newRoom.id}
+					#{roomId}
 				</Text>
 			</View>
 
 			<View style={Styles.playersContainer}>
-				{newRoom.players.map((player, i) => (
+				{listPlayers.map((player, i) => (
 					<ListItem key={i} containerStyle={Styles.blackBg}>
 						<ListItem.Title>
 							<Text style={[Styles.importantText, Styles.greyText]}>
@@ -103,7 +86,7 @@ export default function Lobby({ navigation, route }) {
 				/>
 				<Button
 					title="Play now"
-					disabled = { isValidGame(newRoom.players) ? false : true}
+					disabled = { isValidGame() ? false : true}
 					color= 'green'
 					onPress={handleGoToGame}
 				/>

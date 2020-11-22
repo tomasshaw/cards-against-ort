@@ -1,9 +1,6 @@
 import {createContext} from 'react'
 
-const SocketContext = createContext({
-    socket: '',
-    roomId: '',
-})
+const SocketContext = createContext()
 
 export default SocketContext;
 

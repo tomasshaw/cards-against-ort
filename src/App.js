@@ -16,12 +16,9 @@ const socket = io(ENDPOINT)
 
 const Stack = createStackNavigator()
 
-
 export default function App() {
 	return (
-		<SocketContext.Provider value={{
-			socket: socket,
-			roomId: ''}}>
+		<SocketContext.Provider value = {socket}>
 			<NavigationContainer>
 				<Stack.Navigator initialRouteName="Home">
 					<Stack.Screen

@@ -6,36 +6,22 @@ import {
 	View,
 	TextInput,
 	Image,
-	Share,
 	Keyboard,
 } from 'react-native'
 import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
 import SocketContext from '../../global/context/index'
-import roomsGlobal from '../../global/rooms'
-import rooms from '../../../../../cardsback/backend-cardsagainst/utils/rooms'
-import {createRoom} from '../../../../../cardsback/backend-cardsagainst/utils/rooms'
-import {createPlayer} from '../../../../../cardsback/backend-cardsagainst/assets/gameLogic'
 
 const createUID = () => {
 	return "room-" + Math.floor(Math.random() * 999999);
 }
 
 export default function Home({ navigation }) {
-	const context = useContext(SocketContext)
-	const socket = context.socket;
+	const socket = useContext(SocketContext)
 	const UID = createUID();
-	const [roomsFront, setRoomsFront] = useState(rooms)
 	const [name, setName] = useState('')
 	const [roomId, setRoomId] = useState('')
-	context.roomId = roomId;
-	console.log(roomId);
-
-
-	useEffect(() =>{
-		socket.connect()
-	}, []) 
-
+	console.log(socket)
 
 	useEffect(() =>{
 		setRoomId(UID)
@@ -45,27 +31,20 @@ export default function Home({ navigation }) {
 		 //rooms.some(rooms.find(e => e === roomId))
 		 true
 	 };
-	
-	console.log(socket)
-
 
 	const handleGoToLobby = () => {
-		//socket.emit('joinRoom', name, roomId)
-		const newRoom = createRoom(roomId)
-		const player = createPlayer(socket)
-		player.name = name
-		player.roomId = roomId
-		//console.log(player)
-		newRoom.players.push(player);
-		//console.log(newRoom)
-	
-		navigation.navigate('Lobby', {newRoom, name, roomId} )
+		navigation.navigate('Lobby', {newRoom, name, roomId } )
+	}
+
+	const createAndNavigateToRoom = () => {
+  		socket.emit('createRoomAndGo', roomId, name);
+		navigation.navigate('Lobby', roomId, name)
 	}
 
 
-	// // useEffect(() => {
-	// // 	socket.connect();
-	// // },[])
+	useEffect(() => {
+		socket.connect();
+	},[])
 
 	// socket.on('message', message => {
 	// 		console.log(message)});
@@ -123,7 +102,7 @@ export default function Home({ navigation }) {
 				<Button
 					title='Crear sala'
 					color='green' 
-					onPress={handleGoToLobby}
+					onPress={createAndNavigateToRoom}
 				/>
 			</View>
 		</SafeAreaView>

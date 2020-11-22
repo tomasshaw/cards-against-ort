@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext} from 'react'
 import {
 	SafeAreaView,
 	Button,
@@ -9,28 +9,27 @@ import {
 import Styles from '../../components/styles'
 import Card from '../../components/card'
 import Header from '../../components/header'
+import SocketContext from '../../global/context/index'
+import { getWhiteCardsPlayer} from '../../../../../cardsback/backend-cardsagainst/utils/cards'
 
-const listWhite = [
-	{ id: '1', msg: 'Respuesta graciosa 1' },
-	{ id: '2', msg: 'Respuesta graciosa 2' },
-	{ id: '3', msg: 'Respuesta graciosa 3' },
-	{ id: '4', msg: 'Respuesta graciosa 4' },
-	{ id: '5', msg: 'Respuesta graciosa 5' },
-	{ id: '6', msg: 'Respuesta graciosa 6' },
-	{ id: '7', msg: 'Respuesta graciosa 7' },
-	{ id: '8', msg: 'Respuesta graciosa 8' },
-]
+
+const listWhite = getWhiteCardsPlayer();
 
 export default function Game({ navigation }) {
+	const context = useContext(SocketContext);
 	const [selectedId, setSelectedId] = useState(null)
 	const [round, setRound] = useState(0)
+	const [turn, setTurn] = useState(0)
 	const [score, setScore] = useState(0)
+	const roomId = context.roomId;
+	console.log('desde game', roomId)
 
 	const renderItem = ({ item }) => {
 		const backgroundColor = item.id === selectedId ? 'grey' : '#ffff'
 		return (
 			<Card
 				item={item}
+				title={item.content}
 				onPress={() => setSelectedId(item.id)}
 				style={{ backgroundColor }}
 			/>
@@ -62,10 +61,6 @@ export default function Game({ navigation }) {
 						color="grey"
 						onPress={() => setScore(score + 1)}
 						style={Styles.button}
-					/>
-					<Button
-						title="Go back"
-						onPress={() => navigation.goBack()}
 					/>
 				</View>
 			</View>
