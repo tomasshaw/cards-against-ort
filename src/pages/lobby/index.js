@@ -8,13 +8,11 @@ import SocketContext from '../../global/context/index'
 
 export default function Lobby({ navigation, route }) {
 	const socket = useContext(SocketContext);
-	const [name, setName] = useState('')
+	const { name } = route.params;
 	const [room, setRoom] = useState('')
-	const {roomId} = route.params;
-	//const {name} = route.params;
-	const [listPlayers, setListPlayers] = useState([])
-	//const player = getCurrentPlayer(socket)
-	
+	const [playersList, setPlayersList] = useState([])
+
+	console.log(playersList)
 	const onSharePress = () => Share.share(shareOptions)
 		
 	const shareOptions = {
@@ -22,19 +20,16 @@ export default function Lobby({ navigation, route }) {
 	}
 
 	useEffect(() => {
-		socket.on('updatePlayers', players => {
-		  	setListPlayers(players);
+		socket.on('playersList', players => {
+		  	setPlayersList(players);
 		});
-		socket.on('getPlayerName', name => {
-			setName(name);
-	  	});
-	  	socket.on('getRoom', room => {
+	  	socket.on('joinRoom', room => {
 			setRoom(room)
 		})
 	});
 
 	const isValidGame = () => {
-		if (listPlayers.length > 0) {
+		if (playersList.length > 0) {
 			return true
 		}
 	}
@@ -58,12 +53,12 @@ export default function Lobby({ navigation, route }) {
 					Sala de juego
 				</Text>
 				<Text style={[Styles.greyText, Styles.importantText]}>
-					#{roomId}
+					#{room.id}
 				</Text>
 			</View>
 
 			<View style={Styles.playersContainer}>
-				{listPlayers.map((player, i) => (
+				{playersList.map((player, i) => (
 					<ListItem key={i} containerStyle={Styles.blackBg}>
 						<ListItem.Title>
 							<Text style={[Styles.importantText, Styles.greyText]}>
@@ -72,7 +67,7 @@ export default function Lobby({ navigation, route }) {
 						</ListItem.Title>
 						<ListItem.Subtitle>
 							<Text style={[Styles.importantText, Styles.whiteText]}>
-								{name}
+								{player.name}
 							</Text>
 						</ListItem.Subtitle>
 					</ListItem>

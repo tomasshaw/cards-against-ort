@@ -10,13 +10,18 @@ import Home from './pages/home'
 import Lobby from './pages/lobby'
 import Game from './pages/game'
 import SocketContext from './global/context/index'
-
+import Style from '../src/components/styles'
 const ENDPOINT = 'http://127.0.0.1:4001'
 const socket = io(ENDPOINT)
 
 const Stack = createStackNavigator()
 
 export default function App() {
+
+	useEffect(() => {
+		socket.connect();
+	},[])
+
 	return (
 		<SocketContext.Provider value = {socket}>
 			<NavigationContainer>
@@ -36,6 +41,7 @@ export default function App() {
 							headerTitle: '',
 							headerBackStyle: { paddingStart: 20 },
 							headerBackAllowFontScaling: true,
+							style: Style.white
 						}}
 					/>
 					<Stack.Screen

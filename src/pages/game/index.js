@@ -10,19 +10,15 @@ import Styles from '../../components/styles'
 import Card from '../../components/card'
 import Header from '../../components/header'
 import SocketContext from '../../global/context/index'
-import { getWhiteCardsPlayer} from '../../../../../cardsback/backend-cardsagainst/utils/cards'
 
-
-const listWhite = getWhiteCardsPlayer();
 
 export default function Game({ navigation }) {
-	const context = useContext(SocketContext);
+	const socket = useContext(SocketContext);
 	const [selectedId, setSelectedId] = useState(null)
 	const [round, setRound] = useState(0)
 	const [turn, setTurn] = useState(0)
 	const [score, setScore] = useState(0)
-	const roomId = context.roomId;
-	console.log('desde game', roomId)
+
 
 	const renderItem = ({ item }) => {
 		const backgroundColor = item.id === selectedId ? 'grey' : '#ffff'
