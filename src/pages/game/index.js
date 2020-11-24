@@ -44,7 +44,7 @@ export default function Game({ navigation }) {
 		return () => {
 			socket.disconnect()
 		}
-	});
+	},[]);
 
 
 	const renderItem = ({item}) => {
@@ -67,6 +67,11 @@ export default function Game({ navigation }) {
 		  />
 		)
 	};
+
+	const handlePlayCard = () => {
+		console.log('Se seleccionó y envío la carta: ' + selectedId)
+		socket.emit('playCard', selectedId)
+	}
 	return (
 		<View style={Styles.container}>
 			<Header round={round} score={score} />
@@ -91,7 +96,8 @@ export default function Game({ navigation }) {
 					<Button
 						title="Enviar"
 						color="grey"
-						onPress={() => setScore(score + 1)}
+						onPress={() => handlePlayCard()}
+						//onPress={() => setScore(score + 1)}
 						style={Styles.button}
 					/>
 				</View>
