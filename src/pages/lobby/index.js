@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useContext, useState, useEffect} from 'react'
-import { SafeAreaView, Share, Button, Text, View } from 'react-native'
+import { Share, Button, Text, View, Linking } from 'react-native'
 import Styles from '../../components/styles'
 import { ListItem } from 'react-native-elements'
 import SocketContext from '../../global/context/index'
@@ -9,40 +9,38 @@ import SocketContext from '../../global/context/index'
 export default function Lobby({ navigation, route }) {
 	const socket = useContext(SocketContext);
 	const { name } = route.params;
-	const [room, setRoom] = useState('')
+	const [room, setRoom] = useState('');
 	const [playersList, setPlayersList] = useState([])
+	const [isValidGame, setIsValidGame] = useState(true)
 
-	console.log(playersList)
 	const onSharePress = () => Share.share(shareOptions)
-		
+	
+
+	useEffect(() => {
+		socket.on('joinRoom', room => {
+			setRoom(room)
+		});
+		socket.on('playerList', players => {
+			  setPlayersList(playersList => 
+				[...playersList, players]);	 
+				setIsValidGame(handleValidGame())
+		});
+	});
+	const handleValidGame = () => {
+		return playersList.length > 2
+	}
 	const shareOptions = {
 		message:`Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${room.id}`,
 	}
 
-	useEffect(() => {
-		socket.on('playersList', players => {
-		  	setPlayersList(players);
-		});
-	  	socket.on('joinRoom', room => {
-			setRoom(room)
-		})
-	});
-
-	const isValidGame = () => {
-		if (playersList.length > 0) {
-			return true
-		}
-	}
-
 	const handleGoToGame = () => {
 		socket.emit('newRound', room.id)
-		console.log('log desde lobby')
 		navigation.navigate('Game')
 	}
 
 
 	return (
-		<SafeAreaView style={Styles.container}>
+		<View style={Styles.container}>
 			<StatusBar style="none" />
 			<View style={Styles.titleLobbyContainer}>
 				<Text style={[Styles.whiteText, Styles.mainText]}>
@@ -59,7 +57,7 @@ export default function Lobby({ navigation, route }) {
 
 			<View style={Styles.playersContainer}>
 				{playersList.map((player, i) => (
-					<ListItem key={i} containerStyle={Styles.blackBg}>
+					<ListItem containerStyle={Styles.blackBg}>
 						<ListItem.Title>
 							<Text style={[Styles.importantText, Styles.greyText]}>
 								Jugador {i + 1}:
@@ -75,17 +73,24 @@ export default function Lobby({ navigation, route }) {
 			</View>
 			<View style={Styles.buttonContainer}>
 				<Button
+					title="Play now"
+					disabled = { isValidGame ? false : true}
+					color= 'green'
+					onPress={handleGoToGame}
+				/>
+			<View style ={Styles.buttonsBlock}>
+				<Button
 					title="Compartir LobbyID"
 					color="grey"
 					onPress={onSharePress}
 				/>
-				<Button
-					title="Play now"
-					disabled = { isValidGame() ? false : true}
-					color= 'green'
-					onPress={handleGoToGame}
-				/>
+				< Button 
+					 onPress={() => Linking.openURL('http://s3.amazonaws.com/cah/CAH_Rules.pdf')}
+					 color='grey'
+    				title = 'Instrucciones'
+				/> 
 			</View>
-		</SafeAreaView>
+		</View>
+		</View>
 	)
 }

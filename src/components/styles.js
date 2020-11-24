@@ -41,6 +41,7 @@ const Styles = StyleSheet.create({
 		marginBottom: '10%',
 		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	logoContainer: {
 		marginTop: '10%',
@@ -52,9 +53,8 @@ const Styles = StyleSheet.create({
 	newGameInfoContainer: {
 		justifyContent: 'center',
 		alignContent: 'center',
-		textAlign:'center',
-		flex: 0.3,
-		marginBottom: '20%',
+		flex: 0.7,
+		marginBottom: '10%',
 	},
 	input: {
 		backgroundColor: '#ffff',
@@ -69,6 +69,17 @@ const Styles = StyleSheet.create({
 		marginTop: '5%',
 		justifyContent: 'center',
 	},
+	inputText: {
+		color: '#ffff',
+		marginLeft: '10%',
+		marginEnd: '10%',
+		marginBottom: '5%',
+		marginTop: '10%',
+		justifyContent: 'center',
+		fontSize: 14,
+		alignContent: 'center',	
+		textAlign: 'center',
+	},
 	divider: {
 		height: 1,
 		backgroundColor: 'grey',
@@ -81,19 +92,25 @@ const Styles = StyleSheet.create({
 		marginBottom: '5%',
 		justifyContent: 'space-between',
 	},
-	button: {
-		borderWidth: 2,
-		borderRadius: 8,
+	buttonBlock: {
+		alignItems: 'center',
+		marginBottom: '5%',
+		flexDirection:'row',
+		justifyContent: 'space-around',
 	},
-	joinGameBtn: {
-		display: 'flex',
-		marginTop: '20%',
-		borderColor: 'green',
+	button: {
+		borderWidth: 15,
+		borderRadius: 15,
+		marginTop: '5%',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginLeft: '20%',
+		marginRight: '20%',
 	},
 	titleLobbyContainer: {
 		flex: 0.3,
 		margin: '10%',
-		marginTop: '20%',
+		marginTop: '30%',
 	},
 	playersContainer: {
 		flex: 0.6,
@@ -154,6 +171,40 @@ const Styles = StyleSheet.create({
 		padding: '0%',
 		flex: 1,
 	},
+	centeredView: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 20,
+	  },
+	  modalView: {
+		marginVertical: 50,
+		marginLeft: 30,
+		marginRight: 30,
+		marginTop: 150,
+		backgroundColor: "black",
+		borderRadius: 20,
+		paddingTop: 200,
+		paddingBottom: 200,
+		alignItems: "center",
+		shadowColor: "white",
+		shadowOffset: {
+		  width: 5,
+		  height: 5,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 2
+	  },
+	  modalText: {
+		margin: 5,
+		textAlign: "center",
+		color: 'white',
+		fontSize: 20,
+	  },
+	  modal:{
+
+	  },
 })
 
 export default Styles

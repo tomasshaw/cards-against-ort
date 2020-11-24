@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
-import { Button, Text, TextInput, View } from 'react-native'
+import { Button, Text,  View } from 'react-native'
 import Styles from '../../components/styles'
 
 const ChatMessages = ({ chat }) => {
