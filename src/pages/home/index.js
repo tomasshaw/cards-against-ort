@@ -16,11 +16,17 @@ export default function Home({ navigation }) {
 	const socket = useContext(SocketContext)
 	const [name, setName] = useState('')
 	const [roomId, setRoomId] = useState('')
+	const [checkName, setCheckName] = useState('false')
 
 	const handleGoToLobby = () => {
 		socket.emit('join_room', name, roomId)
 		navigation.navigate('Lobby', { name })
 	}
+
+	useEffect(() => {
+		setCheckName(name === '')
+	},[name])
+
 
 	return (
 		<View style={Styles.container}>
@@ -60,6 +66,7 @@ export default function Home({ navigation }) {
 					style={Styles.button}
 					title="Unirme a la sala"
 					color="grey"
+					disabled={checkName}
 					onPress={handleGoToLobby}
 				/>
 				<View style={Styles.spacer} />
@@ -70,6 +77,7 @@ export default function Home({ navigation }) {
 					style={Styles.button}
 					title="Crear sala"
 					color="green"
+					disabled={checkName}
 					onPress={handleGoToLobby}
 				/>
 			</View>

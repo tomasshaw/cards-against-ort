@@ -34,25 +34,25 @@ export default function Game({ navigation, route }) {
 	const [winner, setWinner] = useState('')
 
 	useEffect(() => {
-		socket.on('userStatus', newUserStatus => {
+		socket.on('user_status', newUserStatus => {
 			setUserStatus(...newUserStatus)
 		})
 	}, [])
 
 	useEffect(() => {
-		socket.on('nextBlackCard', black => {
+		socket.on('next_black_card', black => {
 			setBlackCard(black)
 		})
 	}, [])
 
 	useEffect(() => {
-		socket.on('nextCardArray', whiteArray => {
+		socket.on('next_card_array', whiteArray => {
 			setWhiteCards(whiteArray)
 		})
 	}, [])
 
 	useEffect(() => {
-		socket.on('getWinner', room => {
+		socket.on('get_winner', room => {
 			setWinner(room.winner)
 		})
 	}, [])
@@ -88,7 +88,7 @@ export default function Game({ navigation, route }) {
 
 	const handlePlayCard = () => {
 		console.log('Se seleccionó y envió la carta: ' + selectedId)
-		socket.emit('playCard', selectedId)
+		socket.emit('play_card', selectedId)
 	}
 
 	const handleGoToHome = () => {
@@ -100,7 +100,7 @@ export default function Game({ navigation, route }) {
 		<View style={Styles.container}>
 			<Header round={round} score={score} />
 			<View style={Styles.bodyGame}>
-				<View style={Styles.modal}>{renderModal()}</View>
+				{/* <View style={Styles.modal}>{renderModal()}</View> */}
 				<View style={Styles.blackCardContainer}>
 					<View style={[Styles.blackCard, Styles.blackBg]}>
 						<Text style={Styles.whiteText}>{blackCard}</Text>
