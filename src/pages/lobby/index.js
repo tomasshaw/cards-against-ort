@@ -7,20 +7,20 @@ import SocketContext from '../../global/context/index'
 export default function Lobby({ navigation, route }) {
 	const socket = useContext(SocketContext)
 	const { name } = route.params
-	const [room, setRoom] = useState('')
-	const [isValidGame, setIsValidGame] = useState(true)
+	const [room, setRoom] = useState({})
+	const [isValidGame, setIsValidGame] = useState(false)
 
 	const onSharePress = () => Share.share(shareOptions)
 
 	useEffect(() => {
-		socket.on('newPlayerConnected', room => {
+		socket.on('update_room', room => {
 			setRoom(room)
 		})
 	}, [])
 
 	useEffect(() => {
-		setIsValidGame(room.players > 2)
-	}, [])
+		setIsValidGame(room?.players?.length > 2)
+	}, [room])
 
 	const shareOptions = {
 		message: `Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${room.id}`,
@@ -46,14 +46,14 @@ export default function Lobby({ navigation, route }) {
 			</View>
 			<View style={Styles.playersContainer}>
 				<Players
-					players={room.players}
+					playersList={room.players}
 					style={Styles.playersContainer}
 				/>
 			</View>
 			<View style={Styles.buttonContainer}>
 				<Button
 					title="Play now"
-					disabled={isValidGame ? false : true}
+					disabled={!isValidGame}
 					color="green"
 					onPress={handleGoToGame}
 				/>

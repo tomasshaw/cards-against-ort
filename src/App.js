@@ -8,7 +8,6 @@ import Home from './pages/home'
 import Lobby from './pages/lobby'
 import Game from './pages/game'
 import SocketContext from './global/context/index'
-import Style from '../src/components/styles'
 const ENDPOINT = 'http://127.0.0.1:4001'
 const socket = io(ENDPOINT)
 

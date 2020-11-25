@@ -5,10 +5,10 @@ import Styles from './styles'
 
 const renderItem = ({ item }) => {
 	return (
-		<ListItem key={i} containerStyle={Styles.blackBg}>
+		<ListItem containerStyle={Styles.blackBg}>
 			<ListItem.Title>
 				<Text style={[Styles.importantText, Styles.greyText]}>
-					Jugador {i + 1}:
+					Jugador:
 				</Text>
 			</ListItem.Title>
 			<ListItem.Subtitle>
@@ -23,7 +23,11 @@ const renderItem = ({ item }) => {
 const PlayersList = ({ playersList }) => {
 	return (
 		<View>
-			<FlatList data={playersList} renderItem={renderItem} />
+			<FlatList
+				data={playersList}
+				renderItem={renderItem}
+				keyExtractor={player => player.id}
+			/>
 		</View>
 	)
 }

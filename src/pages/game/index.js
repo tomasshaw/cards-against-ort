@@ -20,13 +20,13 @@ const mockWhiteCards = [
 
 export default function Game({ navigation, route }) {
 	const socket = useContext(SocketContext)
-	const room = route.params
 	const [selectedId, setSelectedId] = useState('')
 	const [userStatus, setUserStatus] = useState({
 		round: 0,
 		score: 0,
 		isZar: false,
 	})
+	const [room, setRoom] = useState(route.params.room)
 	const { round, score, isZar } = userStatus
 	const [whiteCards, setWhiteCards] = useState(mockWhiteCards)
 	const [blackCard, setBlackCard] = useState('')

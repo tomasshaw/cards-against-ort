@@ -17,15 +17,9 @@ export default function Home({ navigation }) {
 	const [name, setName] = useState('')
 	const [roomId, setRoomId] = useState('')
 
-	useEffect(() => {
-		socket.on('getAllRooms', rooms => {
-			setRooms(rooms)
-		})
-	}, [])
-
 	const handleGoToLobby = () => {
-		socket.emit('joinRoom', name, roomId)
-		navigation.navigate('Lobby', {name})
+		socket.emit('join_room', name, roomId)
+		navigation.navigate('Lobby', { name })
 	}
 
 	return (
@@ -41,7 +35,7 @@ export default function Home({ navigation }) {
 				</View>
 			</View>
 			<View style={Styles.newGameInfoContainer}>
-			<Text style={Styles.inputText}>
+				<Text style={Styles.inputText}>
 					Por favor, ingresá tu nombre:
 				</Text>
 				<TextInput
@@ -51,7 +45,7 @@ export default function Home({ navigation }) {
 					placeholder="Nombre"
 					onSubmitEditing={Keyboard.dismiss}
 				/>
-				<View style={Styles.spacer}/>
+				<View style={Styles.spacer} />
 				<Text style={Styles.inputText}>
 					Si tenés un número de sala, ingresalo aquí:
 				</Text>
@@ -68,7 +62,7 @@ export default function Home({ navigation }) {
 					color="grey"
 					onPress={handleGoToLobby}
 				/>
-				<View style={Styles.spacer}/>
+				<View style={Styles.spacer} />
 				<Text style={Styles.inputText}>
 					Si no, crea una nueva sala:
 				</Text>
