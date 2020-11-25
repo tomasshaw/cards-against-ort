@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
-import {
-	Button,
-	Text,
-	View,
-	FlatList,
-} from 'react-native'
+import { Button, Text, View, FlatList } from 'react-native'
 import Styles from '../../components/styles'
 import Card from '../../components/card'
 import Header from '../../components/header'
 import SocketContext from '../../global/context/index'
 import Modal from '../../components/modalWinner'
+import RoleContainer from '../../components/roleContainer'
 
-
-const whiteCards = [
+const mockWhiteCards = [
 	{ id: '1', msg: 'Respuesta graciosa 1' },
 	{ id: '2', msg: 'Respuesta graciosa 2' },
 	{ id: '3', msg: 'Respuesta graciosa 3' },
@@ -23,66 +18,95 @@ const whiteCards = [
 	{ id: '8', msg: 'Respuesta graciosa 8' },
 ]
 
-export default function Game({ navigation }) {
-	const socket = useContext(SocketContext);
+export default function Game({ navigation, route }) {
+	const socket = useContext(SocketContext)
+	const room = route.params
 	const [selectedId, setSelectedId] = useState('')
-	const [round, setRound] = useState(0)
-	const [turn, setTurn] = useState(0)
-	const [score, setScore] = useState(0)
-	//const [whiteCards, setWhiteCards] = useState(whiteCards)
-	const [modalVisible, setModalVisible] = useState(false);
-	const [winner, setWinner] = useState('');
+	const [userStatus, setUserStatus] = useState({
+		round: 0,
+		score: 0,
+		isZar: false,
+	})
+	const { round, score, isZar } = userStatus
+	const [whiteCards, setWhiteCards] = useState(mockWhiteCards)
+	const [blackCard, setBlackCard] = useState('')
+	const [modalVisible, setModalVisible] = useState(false)
+	const [winner, setWinner] = useState('')
 
-		
+	useEffect(() => {
+		socket.on('userStatus', newUserStatus => {
+			setUserStatus(...newUserStatus)
+		})
+	}, [])
+
+	useEffect(() => {
+		socket.on('nextBlackCard', black => {
+			setBlackCard(black)
+		})
+	}, [])
+
+	useEffect(() => {
+		socket.on('nextCardArray', whiteArray => {
+			setWhiteCards(whiteArray)
+		})
+	}, [])
+
 	useEffect(() => {
 		socket.on('getWinner', room => {
 			setWinner(room.winner)
-			if(winner !== ''){
-				setModalVisible(modalVisible);
-			  }
 		})
-		return () => {
-			socket.disconnect()
-		}
-	},[]);
+	}, [])
 
+	useEffect(() => {
+		setModalVisible(winner !== '')
+	}, [])
 
-	const renderItem = ({item}) => {
+	const renderRole = () => {
+		return isZar ? 'Zar' : 'Player'
+	}
+
+	const renderItem = ({ item }) => {
 		const backgroundColor = item.id === selectedId ? 'grey' : '#ffff'
-			return (
-				<Card
-					item={item}
-					onPress={() => setSelectedId(item.id)}
-					style={{ backgroundColor }}
-				/>
-			)
+		return (
+			<Card
+				item={item}
+				onPress={() => setSelectedId(item.id)}
+				style={{ backgroundColor }}
+			/>
+		)
 	}
 
 	const renderModal = () => {
 		return (
-			<Modal 
-				winner = { winner }
-				visible = {modalVisible}
-				navigateToHome= {() => navigateToHome()}
-		  />
+			<Modal
+				winner={winner}
+				visible={modalVisible}
+				navigateToHome={() => handleGoToHome()}
+			/>
 		)
-	};
+	}
 
 	const handlePlayCard = () => {
-		console.log('Se seleccionó y envío la carta: ' + selectedId)
+		console.log('Se seleccionó y envió la carta: ' + selectedId)
 		socket.emit('playCard', selectedId)
 	}
+
+	const handleGoToHome = () => {
+		socket.emit('disconnect')
+		navigation.navigate('Home')
+	}
+
 	return (
 		<View style={Styles.container}>
 			<Header round={round} score={score} />
 			<View style={Styles.bodyGame}>
-			<View style={Styles.modal}>{renderModal()}</View>
+				<View style={Styles.modal}>{renderModal()}</View>
 				<View style={Styles.blackCardContainer}>
 					<View style={[Styles.blackCard, Styles.blackBg]}>
-						<Text style={Styles.whiteText}>Carta negra</Text>
+						<Text style={Styles.whiteText}>{blackCard}</Text>
 					</View>
 				</View>
-				<View style={Styles.divider} />
+				<RoleContainer role={renderRole()} />
 				<View style={Styles.whiteCardsContainer}>
 					<FlatList
 						style={Styles.cardContainer}
@@ -97,7 +121,6 @@ export default function Game({ navigation }) {
 						title="Enviar"
 						color="grey"
 						onPress={() => handlePlayCard()}
-						//onPress={() => setScore(score + 1)}
 						style={Styles.button}
 					/>
 				</View>

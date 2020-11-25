@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import 'react-native-gesture-handler'
 import io from 'socket.io-client'
 import { registerRootComponent } from 'expo'
@@ -12,41 +12,20 @@ import Style from '../src/components/styles'
 const ENDPOINT = 'http://127.0.0.1:4001'
 const socket = io(ENDPOINT)
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 export default function App() {
-	
-	useEffect(() =>{
+	useEffect(() => {
 		socket.connect()
 	}, [])
 
 	return (
-		<SocketContext.Provider value = {socket}>
+		<SocketContext.Provider value={socket}>
 			<NavigationContainer>
-				<Stack.Navigator initialRouteName="Home">
-					<Stack.Screen
-						name="Home"
-						component={Home}
-						options={{ headerShown: false }}
-					/>
-					<Stack.Screen
-						name="Lobby"
-						component={Lobby}
-						headerMode="float"
-						options={{
-							headerBackTitle: 'Atrás',
-							headerTransparent: true,
-							headerTitle: '',
-							headerBackStyle: { paddingStart: 20 },
-							headerBackAllowFontScaling: true,
-							style: Style.white
-						}}
-					/>
-					<Stack.Screen
-						name="Game"
-						component={Game}
-						options={{ headerShown: false }}
-					/>
+				<Stack.Navigator initialRouteName="Home" headerMode="none">
+					<Stack.Screen name="Home" component={Home} />
+					<Stack.Screen name="Lobby" component={Lobby} />
+					<Stack.Screen name="Game" component={Game} />
 				</Stack.Navigator>
 			</NavigationContainer>
 		</SocketContext.Provider>

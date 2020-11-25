@@ -12,30 +12,21 @@ import Styles from '../../components/styles'
 import caoLogo from '../../../assets/icon.png'
 import SocketContext from '../../global/context/index'
 
-
 export default function Home({ navigation }) {
 	const socket = useContext(SocketContext)
 	const [name, setName] = useState('')
 	const [roomId, setRoomId] = useState('')
-	const [rooms, setRooms] = useState([])
-	const [validRoom, setValidRoom] = useState(false)
-	
-	console.log(socket); 
 
 	useEffect(() => {
 		socket.on('getAllRooms', rooms => {
-			  setRooms(rooms);
-			  if(rooms.some(e => e.id === roomId)){
-					setValidRoom(isValid);
-			  }
-		});
-	});
+			setRooms(rooms)
+		})
+	}, [])
 
 	const handleGoToLobby = () => {
-		socket.emit('newConnection', name, roomId);
+		socket.emit('joinRoom', name, roomId)
 		navigation.navigate('Lobby', {name})
-	};
-
+	}
 
 	return (
 		<View style={Styles.container}>
@@ -50,6 +41,9 @@ export default function Home({ navigation }) {
 				</View>
 			</View>
 			<View style={Styles.newGameInfoContainer}>
+			<Text style={Styles.inputText}>
+					Por favor, ingresá tu nombre:
+				</Text>
 				<TextInput
 					style={Styles.input}
 					value={name}
@@ -57,7 +51,10 @@ export default function Home({ navigation }) {
 					placeholder="Nombre"
 					onSubmitEditing={Keyboard.dismiss}
 				/>
-				<Text style={Styles.inputText}>Si tenés un número de sala, ingrésalo aquí:</Text>
+				<View style={Styles.spacer}/>
+				<Text style={Styles.inputText}>
+					Si tenés un número de sala, ingresalo aquí:
+				</Text>
 				<TextInput
 					style={Styles.input}
 					value={roomId}
@@ -66,17 +63,19 @@ export default function Home({ navigation }) {
 					onSubmitEditing={Keyboard.dismiss}
 				/>
 				<Button
-					style= {Styles.button}
-					title='Unirme a la sala'
-					disabled= {validRoom? false : true}
-					color='green' 
+					style={Styles.button}
+					title="Unirme a la sala"
+					color="grey"
 					onPress={handleGoToLobby}
 				/>
-				<Text style={Styles.inputText}>Si no, crea una nueva sala:</Text>
+				<View style={Styles.spacer}/>
+				<Text style={Styles.inputText}>
+					Si no, crea una nueva sala:
+				</Text>
 				<Button
-					style= {Styles.button}
-					title='Crear sala'
-					color='green' 
+					style={Styles.button}
+					title="Crear sala"
+					color="green"
 					onPress={handleGoToLobby}
 				/>
 			</View>

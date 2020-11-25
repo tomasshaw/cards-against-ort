@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import Styles from './styles'
 
-const ModalWinner = ({winner, visible}) => {
+const ModalWinner = ({winner, visible, navigateToHome}) => {
    
     return (
         <View>
@@ -14,7 +14,7 @@ const ModalWinner = ({winner, visible}) => {
                 animationType="slide"
                 transparent={true}
                 visible={visible}
-                onRequestClose={() => navigation.navigate('Home')}
+                onRequestClose={navigateToHome}
             >
                 <View style={Styles.modalView}>
                     <Text style={Styles.modalText}> {`¡El juego terminó! \n El ganador es ${winner}`}</Text>

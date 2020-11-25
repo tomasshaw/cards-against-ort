@@ -7,10 +7,10 @@ const Styles = StyleSheet.create({
 		padding: 8,
 	},
 	spacer: {
-		minHeight: 40,
+		minHeight: 20,
 	},
 	whiteBg: {
-		backgroundColor: 'white',
+		backgroundColor: '#ffff',
 	},
 	blackBg: {
 		backgroundColor: 'black',
@@ -38,7 +38,7 @@ const Styles = StyleSheet.create({
 	},
 	titleLayoutContainer: {
 		flex: 0.6,
-		marginBottom: '10%',
+		marginBottom: '5%',
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -49,7 +49,6 @@ const Styles = StyleSheet.create({
 	nameTitleContainer: {
 		marginTop: '30%',
 	},
-	logoImage: {},
 	newGameInfoContainer: {
 		justifyContent: 'center',
 		alignContent: 'center',
@@ -63,8 +62,8 @@ const Styles = StyleSheet.create({
 		borderWidth: 2,
 		borderRadius: 6,
 		paddingLeft: 12,
-		marginLeft: '20%',
-		marginEnd: '20%',
+		marginLeft: '15%',
+		marginEnd: '15%',
 		marginBottom: '5%',
 		marginTop: '5%',
 		justifyContent: 'center',
@@ -73,8 +72,8 @@ const Styles = StyleSheet.create({
 		color: '#ffff',
 		marginLeft: '10%',
 		marginEnd: '10%',
-		marginBottom: '5%',
-		marginTop: '10%',
+		marginBottom: '1%',
+		marginTop: '5%',
 		justifyContent: 'center',
 		fontSize: 14,
 		alignContent: 'center',	
@@ -88,32 +87,33 @@ const Styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		alignItems: 'center',
-		flex: 0.2,
-		marginBottom: '5%',
+		flex: 0.1,
+		margin: '5%',
 		justifyContent: 'space-between',
 	},
-	buttonBlock: {
+	buttonsBlock: {
 		alignItems: 'center',
 		marginBottom: '5%',
 		flexDirection:'row',
 		justifyContent: 'space-around',
+		alignContent: 'center',
+		flex: 0.1,
 	},
 	button: {
-		borderWidth: 15,
-		borderRadius: 15,
+		borderWidth: 20,
+		borderRadius: 20,
 		marginTop: '5%',
-		justifyContent: 'center',
 		alignItems: 'center',
 		marginLeft: '20%',
 		marginRight: '20%',
 	},
 	titleLobbyContainer: {
-		flex: 0.3,
+		flex: 0.2,
 		margin: '10%',
-		marginTop: '30%',
+		marginTop: '20%',
 	},
 	playersContainer: {
-		flex: 0.6,
+		flex: 0.7,
 		marginLeft: '10%',
 		marginEnd: '10%',
 	},
@@ -166,10 +166,25 @@ const Styles = StyleSheet.create({
 		elevation: 5,
 		backgroundColor: 'black',
 	},
+	roleContainer: {
+		alignContent: 'space-around',
+		flexDirection: 'row',
+		marginLeft: '20%',
+		marginRight: '20%',
+		marginTop: '5%',
+		marginBottom: '5%',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	partialDivider: {
+		height: 1,
+		backgroundColor: 'white',
+		width: '40%',
+	},
 	bodyGame: {
 		backgroundColor: '#302c2c',
 		padding: '0%',
-		flex: 1,
+		flex: 0.9,
 	},
 	centeredView: {
 		flex: 1,
@@ -201,9 +216,6 @@ const Styles = StyleSheet.create({
 		textAlign: "center",
 		color: 'white',
 		fontSize: 20,
-	  },
-	  modal:{
-
 	  },
 })
 
