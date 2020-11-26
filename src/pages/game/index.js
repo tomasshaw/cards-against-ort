@@ -34,6 +34,7 @@ export default function Game({ navigation, route }) {
 	const [winner, setWinner] = useState('')
 
 
+
 	useEffect(() => {
 		socket.emit('next_round', room)
 	},[userStatus.round])
