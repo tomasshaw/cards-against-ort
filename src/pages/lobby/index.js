@@ -83,7 +83,7 @@ export default function Lobby({ navigation, route }) {
 						)
 					}
 					color="grey"
-					title="Rules"
+					title="Basic rules"
 				/>
 			</View>
 		</View>
