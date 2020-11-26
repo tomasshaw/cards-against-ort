@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import Styles from './styles'
 
 const RoleContainer = ({ role }) => {
+	console.log(role)
 	return (
 		<View style={Styles.roleContainer}>
 			<View style={Styles.partialDivider} />

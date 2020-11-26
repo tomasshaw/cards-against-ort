@@ -50,7 +50,7 @@ export default function Home({ navigation }) {
 				/>
 				<View style={Styles.spacer} />
 				<Text style={Styles.inputText}>
-					If you have a Room ID enter it, else begin new game
+					Do you have a Room ID? Enter it. Or start a new game.
 				</Text>
 				<TextInput
 					style={Styles.input}

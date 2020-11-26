@@ -23,11 +23,10 @@ export default function Game({ navigation, route }) {
 	const [selectedId, setSelectedId] = useState('')
 	const { room } = route.params
 	const [userStatus, setUserStatus] = useState({
-		round: 0,
-		score: 0,
+		points: 0,
 		isZar: false,
 	})
-	const { round, score, isZar } = userStatus
+	const {points, isZar } = userStatus
 	const [whiteCards, setWhiteCards] = useState([])
 	const [blackCard, setBlackCard] = useState({})
 	const [modalVisible, setModalVisible] = useState(false)
@@ -35,42 +34,36 @@ export default function Game({ navigation, route }) {
 
 
 
-	useEffect(() => {
-		socket.emit('next_round', room)
-	}, [userStatus.round])
+	// useEffect(() => {
+	// 	socket.emit('round_finished', room)
+	// }, [])
+
+
 
 	useEffect(() => {
 		socket.on('user_status', newUserStatus => {
-			setUserStatus(...newUserStatus)
+			console.log('newUserStatus', newUserStatus)
+			setUserStatus(newUserStatus)
 		})
-	}, [])
-
-	useEffect(() => {
 		socket.on('next_black_card', black => {
 			setBlackCard(black)
-			console.log('CARTA BLACK' + black)
 		})
-	}, [])
-
-	useEffect(() => {
 		socket.on('next_card_array', whiteArray => {
 			setWhiteCards(whiteArray)
 		})
-	}, [])
-
-	useEffect(() => {
 		socket.on('get_winner', room => {
 			setWinner(room.winner)
+		})
+		socket.on('new_round', () => {
+			room.round = room.round + 1
+			socket.emit('get_next_round_status', room)
 		})
 	}, [])
 
 	useEffect(() => {
 		setModalVisible(winner !== '')
-	}, [])
+	}, [winner])
 
-	const renderRole = () => {
-		return isZar ? 'Zar' : 'Player'
-	}
 
 	const renderItem = ({ item }) => {
 		const backgroundColor = item.id === selectedId ? 'grey' : '#ffff'
@@ -104,21 +97,21 @@ export default function Game({ navigation, route }) {
 
 	return (
 		<View style={Styles.container}>
-			<Header round={round} score={score} />
+			<Header round={room.round} points={points} />
 			<View style={Styles.bodyGame}>
-				<View style={Styles.modal}>{renderModal()}</View>
+				{/* <View style={Styles.modal}>{renderModal()}</View> */}
 				<View style={Styles.blackCardContainer}>
 					<View style={[Styles.blackCard, Styles.blackBg]}>
 						<Text style={Styles.whiteText}>{blackCard.content}</Text>
 					</View>
 				</View>
-				<RoleContainer role={renderRole()} />
+				<RoleContainer role={isZar ? 'Zar' : 'Player'} />
 				<View style={Styles.whiteCardsContainer}>
 					<FlatList
 						style={Styles.cardContainer}
 						data={whiteCards}
 						renderItem={renderItem}
-						keyExtractor={item => item.id}
+						keyExtractor={item => item.id.toString()}
 						extraData={selectedId}
 					/>
 				</View>
@@ -126,7 +119,7 @@ export default function Game({ navigation, route }) {
 					<Button
 						title="Submit"
 						color="grey"
-						onPress={() => handlePlayCard()}
+						onPress={handlePlayCard}
 						style={Styles.button}
 					/>
 				</View>
