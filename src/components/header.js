@@ -5,8 +5,8 @@ import Info from './info'
 
 const header = ({ round, score }) => (
 	<View style={Styles.header}>
-		<Info name="Ronda" number={round} />
-		<Info name="Puntaje" number={score} />
+		<Info name="Round" number={round} />
+		<Info name="Points" number={score} />
 	</View>
 )
 

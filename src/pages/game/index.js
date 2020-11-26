@@ -118,7 +118,7 @@ export default function Game({ navigation, route }) {
 				</View>
 				<View style={Styles.buttonContainer}>
 					<Button
-						title="Enviar"
+						title="Submit"
 						color="grey"
 						onPress={() => handlePlayCard()}
 						style={Styles.button}

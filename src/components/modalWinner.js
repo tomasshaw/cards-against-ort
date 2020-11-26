@@ -17,7 +17,7 @@ const ModalWinner = ({winner, visible, navigateToHome}) => {
                 onRequestClose={navigateToHome}
             >
                 <View style={Styles.modalView}>
-                    <Text style={Styles.modalText}> {`¡El juego terminó! \n El ganador es ${winner}`}</Text>
+                    <Text style={Styles.modalText}> The game is over! The winner is </Text><Text style={[Styles.mainText, Styles.whiteTe]}>{winner}</Text>
                 </View>
             </Modal>
         </View>

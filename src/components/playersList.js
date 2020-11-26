@@ -8,7 +8,7 @@ const renderItem = ({ item }) => {
 		<ListItem containerStyle={Styles.blackBg}>
 			<ListItem.Title>
 				<Text style={[Styles.importantText, Styles.greyText]}>
-					Jugador:
+					Player:
 				</Text>
 			</ListItem.Title>
 			<ListItem.Subtitle>

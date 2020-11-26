@@ -44,11 +44,11 @@ export default function Lobby({ navigation, route }) {
 		<View style={Styles.container}>
 			<View style={Styles.titleLobbyContainer}>
 				<Text style={[Styles.whiteText, Styles.mainText]}>
-					Hola {name}
+					{`Hi ${name} !`}
 					{'\n'}
 				</Text>
 				<Text style={[Styles.whiteText, Styles.importantText]}>
-					Sala de juego
+					Room 
 				</Text>
 				<Text style={[Styles.greyText, Styles.importantText]}>
 					#{room.id}
@@ -70,7 +70,7 @@ export default function Lobby({ navigation, route }) {
 			</View>
 			<View style={Styles.buttonsBlock}>
 				<Button
-					title="Compartir Room ID"
+					title="Share Room ID"
 					color="grey"
 					onPress={onSharePress}
 				/>
@@ -81,7 +81,7 @@ export default function Lobby({ navigation, route }) {
 						)
 					}
 					color="grey"
-					title="Instrucciones"
+					title="Rules"
 				/>
 			</View>
 		</View>

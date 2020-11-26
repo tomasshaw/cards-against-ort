@@ -25,8 +25,7 @@ export default function Home({ navigation }) {
 
 	useEffect(() => {
 		setCheckName(name === '')
-	},[name])
-
+	}, [name])
 
 	return (
 		<View style={Styles.container}>
@@ -41,9 +40,7 @@ export default function Home({ navigation }) {
 				</View>
 			</View>
 			<View style={Styles.newGameInfoContainer}>
-				<Text style={Styles.inputText}>
-					Por favor, ingresá tu nombre:
-				</Text>
+				<Text style={Styles.inputText}>Enter name:</Text>
 				<TextInput
 					style={Styles.input}
 					value={name}
@@ -53,7 +50,7 @@ export default function Home({ navigation }) {
 				/>
 				<View style={Styles.spacer} />
 				<Text style={Styles.inputText}>
-					Si tenés un número de sala, ingresalo aquí:
+					If you have a Room ID enter it, else begin new game
 				</Text>
 				<TextInput
 					style={Styles.input}
@@ -62,21 +59,11 @@ export default function Home({ navigation }) {
 					placeholder="Room ID"
 					onSubmitEditing={Keyboard.dismiss}
 				/>
-				<Button
-					style={Styles.button}
-					title="Unirme a la sala"
-					color="grey"
-					disabled={checkName}
-					onPress={handleGoToLobby}
-				/>
 				<View style={Styles.spacer} />
-				<Text style={Styles.inputText}>
-					Si no, crea una nueva sala:
-				</Text>
+				<Text style={Styles.inputText}></Text>
 				<Button
-					style={Styles.button}
-					title="Crear sala"
-					color="green"
+					title={roomId === '' ? 'New Game' : 'Join Game'}
+					color={roomId === '' ? 'green' : '#63C132'}
 					disabled={checkName}
 					onPress={handleGoToLobby}
 				/>
