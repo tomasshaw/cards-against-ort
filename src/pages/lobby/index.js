@@ -14,7 +14,7 @@ export default function Lobby({ navigation, route }) {
 
 	useEffect(() => {
 		socket.on('update_room', room => {
-			setRoom(room)
+			setRoom(room)	
 		})
 	}, [])
 
@@ -23,15 +23,17 @@ export default function Lobby({ navigation, route }) {
 	}, [room])
 
 	useEffect(() => {
-		socket.on('play_room', handleNavigate)
+		socket.on('play_room', room => {
+			handleNavigate(room)
+		})
 	},[])
 
 	const shareOptions = {
 		message: `Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${room.id}`,
 	}
 
-	const handleNavigate = () => {
-		navigation.navigate('Game', room)
+	const handleNavigate = (room) => {
+		navigation.navigate('Game', {room} )
 	}
 
 	const handleGoToGame = () => {
