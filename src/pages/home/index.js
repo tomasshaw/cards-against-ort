@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
 	const socket = useContext(SocketContext)
 	const [name, setName] = useState('')
 	const [roomId, setRoomId] = useState('')
-	const [checkName, setCheckName] = useState('false')
+	const [checkName, setCheckName] = useState(false)
 
 	const handleGoToLobby = () => {
 		socket.emit('join_room', name, roomId)

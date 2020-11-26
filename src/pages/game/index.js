@@ -21,7 +21,7 @@ import RoleContainer from '../../components/roleContainer'
 export default function Game({ navigation, route }) {
 	const socket = useContext(SocketContext)
 	const [selectedId, setSelectedId] = useState('')
-	const {room} = route.params
+	const { room } = route.params
 	const [userStatus, setUserStatus] = useState({
 		round: 0,
 		score: 0,
@@ -37,7 +37,7 @@ export default function Game({ navigation, route }) {
 
 	useEffect(() => {
 		socket.emit('next_round', room)
-	},[userStatus.round])
+	}, [userStatus.round])
 
 	useEffect(() => {
 		socket.on('user_status', newUserStatus => {
@@ -106,7 +106,7 @@ export default function Game({ navigation, route }) {
 		<View style={Styles.container}>
 			<Header round={round} score={score} />
 			<View style={Styles.bodyGame}>
-				{/* <View style={Styles.modal}>{renderModal()}</View> */}
+				<View style={Styles.modal}>{renderModal()}</View>
 				<View style={Styles.blackCardContainer}>
 					<View style={[Styles.blackCard, Styles.blackBg]}>
 						<Text style={Styles.whiteText}>{blackCard.content}</Text>
