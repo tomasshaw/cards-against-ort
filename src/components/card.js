@@ -4,7 +4,7 @@ import Styles from './styles'
 
 const card = ({ item, onPress, style }) => (
 	<TouchableOpacity onPress={onPress} style={[Styles.card, style]}>
-		<Text>{item.msg}</Text>
+		<Text>{item.content}</Text>
 	</TouchableOpacity>
 )
 

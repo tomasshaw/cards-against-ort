@@ -7,31 +7,36 @@ import SocketContext from '../../global/context/index'
 import Modal from '../../components/modalWinner'
 import RoleContainer from '../../components/roleContainer'
 
-const mockWhiteCards = [
-	{ id: '1', msg: 'Respuesta graciosa 1' },
-	{ id: '2', msg: 'Respuesta graciosa 2' },
-	{ id: '3', msg: 'Respuesta graciosa 3' },
-	{ id: '4', msg: 'Respuesta graciosa 4' },
-	{ id: '5', msg: 'Respuesta graciosa 5' },
-	{ id: '6', msg: 'Respuesta graciosa 6' },
-	{ id: '7', msg: 'Respuesta graciosa 7' },
-	{ id: '8', msg: 'Respuesta graciosa 8' },
-]
+// const mockWhiteCards = [
+// 	{ id: '1', msg: 'Respuesta graciosa 1' },
+// 	{ id: '2', msg: 'Respuesta graciosa 2' },
+// 	{ id: '3', msg: 'Respuesta graciosa 3' },
+// 	{ id: '4', msg: 'Respuesta graciosa 4' },
+// 	{ id: '5', msg: 'Respuesta graciosa 5' },
+// 	{ id: '6', msg: 'Respuesta graciosa 6' },
+// 	{ id: '7', msg: 'Respuesta graciosa 7' },
+// 	{ id: '8', msg: 'Respuesta graciosa 8' },
+// ]
 
 export default function Game({ navigation, route }) {
 	const socket = useContext(SocketContext)
 	const [selectedId, setSelectedId] = useState('')
+	const {room} = route.params
 	const [userStatus, setUserStatus] = useState({
 		round: 0,
 		score: 0,
 		isZar: false,
 	})
-	const [room, setRoom] = useState(route.params.room)
 	const { round, score, isZar } = userStatus
-	const [whiteCards, setWhiteCards] = useState(mockWhiteCards)
-	const [blackCard, setBlackCard] = useState('')
+	const [whiteCards, setWhiteCards] = useState([])
+	const [blackCard, setBlackCard] = useState({})
 	const [modalVisible, setModalVisible] = useState(false)
 	const [winner, setWinner] = useState('')
+
+
+	useEffect(() => {
+		socket.emit('next_round', room)
+	},[userStatus.round])
 
 	useEffect(() => {
 		socket.on('user_status', newUserStatus => {
@@ -42,6 +47,7 @@ export default function Game({ navigation, route }) {
 	useEffect(() => {
 		socket.on('next_black_card', black => {
 			setBlackCard(black)
+			console.log('CARTA BLACK' + black)
 		})
 	}, [])
 
@@ -87,7 +93,6 @@ export default function Game({ navigation, route }) {
 	}
 
 	const handlePlayCard = () => {
-		console.log('Se seleccionó y envió la carta: ' + selectedId)
 		socket.emit('play_card', selectedId)
 	}
 
@@ -103,7 +108,7 @@ export default function Game({ navigation, route }) {
 				{/* <View style={Styles.modal}>{renderModal()}</View> */}
 				<View style={Styles.blackCardContainer}>
 					<View style={[Styles.blackCard, Styles.blackBg]}>
-						<Text style={Styles.whiteText}>{blackCard}</Text>
+						<Text style={Styles.whiteText}>{blackCard.content}</Text>
 					</View>
 				</View>
 				<RoleContainer role={renderRole()} />
