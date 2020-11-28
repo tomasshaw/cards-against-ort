@@ -20,8 +20,8 @@ import RoleContainer from '../../components/roleContainer'
 
 export default function Game({ navigation, route }) {
 	const socket = useContext(SocketContext)
-	const [selectedId, setSelectedId] = useState('')
-	const { room } = route.params
+	const [selectedCard, setSelectedCard] = useState({})
+	const [room, setRoom] = useState({})
 	const [userStatus, setUserStatus] = useState({
 		points: 0,
 		isZar: false,
@@ -29,8 +29,11 @@ export default function Game({ navigation, route }) {
 	const {points, isZar } = userStatus
 	const [whiteCards, setWhiteCards] = useState([])
 	const [blackCard, setBlackCard] = useState({})
+	const [whiteCardsZar, setWhiteCardsZar] = useState([])
 	const [modalVisible, setModalVisible] = useState(false)
 	const [winner, setWinner] = useState('')
+	const [submitZar, setSubmitZar] = useState(false)
+	const [submitPlayer, setSubmitPlayer] = useState(false)
 
 
 
@@ -39,10 +42,8 @@ export default function Game({ navigation, route }) {
 	// }, [])
 
 
-
 	useEffect(() => {
 		socket.on('user_status', newUserStatus => {
-			console.log('newUserStatus', newUserStatus)
 			setUserStatus(newUserStatus)
 		})
 		socket.on('next_black_card', black => {
@@ -54,11 +55,20 @@ export default function Game({ navigation, route }) {
 		socket.on('get_winner', room => {
 			setWinner(room.winner)
 		})
-		socket.on('new_round', () => {
-			room.round = room.round + 1
-			socket.emit('get_next_round_status', room)
+		socket.on('new_round', (room) => {
+			setWhiteCardsZar([])
+			socket.emit('next_round', room)
+		})
+		socket.on('update_room', room => {
+			setRoom(room)	
+		})
+		socket.on('submit_card', card => {
+			setWhiteCardsZar(whiteCardsZar => [...whiteCardsZar, card])
 		})
 	}, [])
+
+	
+
 
 	useEffect(() => {
 		setModalVisible(winner !== '')
@@ -66,14 +76,16 @@ export default function Game({ navigation, route }) {
 
 
 	const renderItem = ({ item }) => {
-		const backgroundColor = item.id === selectedId ? 'grey' : '#ffff'
-		return (
-			<Card
-				item={item}
-				onPress={() => setSelectedId(item.id)}
-				style={{ backgroundColor }}
-			/>
-		)
+			const backgroundColor = item === selectedCard ? 'grey' : '#ffff'
+			return (
+				<Card
+					item={item}
+					onPress={() => {
+						setSelectedCard(item)
+					}}
+					style={{ backgroundColor }}
+				/>
+			)
 	}
 
 	const renderModal = () => {
@@ -87,13 +99,20 @@ export default function Game({ navigation, route }) {
 	}
 
 	const handlePlayCard = () => {
-		socket.emit('play_card', selectedId)
+		socket.emit('play_card', room, selectedCard)
 	}
+
 
 	const handleGoToHome = () => {
 		socket.emit('disconnect')
 		navigation.navigate('Home')
 	}
+
+	const handlePickWinner = () => {
+		socket.emit('round_finished', room, selectedCard)
+		
+	}
+
 
 	return (
 		<View style={Styles.container}>
@@ -109,17 +128,18 @@ export default function Game({ navigation, route }) {
 				<View style={Styles.whiteCardsContainer}>
 					<FlatList
 						style={Styles.cardContainer}
-						data={whiteCards}
+						data={isZar ? whiteCardsZar : whiteCards}
 						renderItem={renderItem}
 						keyExtractor={item => item.id.toString()}
-						extraData={selectedId}
+						extraData={selectedCard}
 					/>
 				</View>
 				<View style={Styles.buttonContainer}>
 					<Button
 						title="Submit"
 						color="grey"
-						onPress={handlePlayCard}
+						disabled={isZar ? submitZar : submitPlayer}
+						onPress={isZar ? handlePickWinner : handlePlayCard}
 						style={Styles.button}
 					/>
 				</View>

@@ -16,17 +16,15 @@ export default function Lobby({ navigation, route }) {
 		socket.on('update_room', room => {
 			setRoom(room)	
 		})
+		socket.on('play_room', room => {
+			handleNavigate(room)
+		})
 	}, [])
 
 	useEffect(() => {
 		setIsValidGame(room?.players?.length > 2)
 	}, [room])
 
-	useEffect(() => {
-		socket.on('play_room', room => {
-			handleNavigate(room)
-		})
-	},[])
 
 	const shareOptions = {
 		message: `Hola! Te estoy invitando a jugar a CAO. Unite a la sala ${room.id}`,
