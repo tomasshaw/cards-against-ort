@@ -52,9 +52,6 @@ export default function Game({ navigation, route }) {
 		socket.on('next_card_array', whiteArray => {
 			setWhiteCards(whiteArray)
 		})
-		socket.on('get_winner', room => {
-			setWinner(room.winner)
-		})
 		socket.on('new_round', (room) => {
 			setWhiteCardsZar([])
 			socket.emit('next_round', room)
@@ -65,14 +62,20 @@ export default function Game({ navigation, route }) {
 		socket.on('submit_card', card => {
 			setWhiteCardsZar(whiteCardsZar => [...whiteCardsZar, card])
 		})
+		socket.on('show_winner', winner => {
+			console.log('WINNER QUE LLEGA', winner)
+			setWinner(winner.name)
+			setModalVisible(true)
+			console.log(modalVisible)
+		})
 	}, [])
 
 	
 
 
-	useEffect(() => {
-		setModalVisible(winner !== '')
-	}, [winner])
+	// useEffect(() => {
+	// 	setModalVisible(winner !== '')
+	// }, [winner])
 
 
 	const renderItem = ({ item }) => {
@@ -89,13 +92,18 @@ export default function Game({ navigation, route }) {
 	}
 
 	const renderModal = () => {
-		return (
-			<Modal
-				winner={winner}
-				visible={modalVisible}
-				navigateToHome={() => handleGoToHome()}
-			/>
-		)
+		console.log('MODALVISIBLE', modalVisible)
+		console.log('WINNER SETEADO', winner)
+		if(modalVisible){
+			return (
+				<Modal
+					winner={winner}
+					visible={modalVisible}
+					navigateToHome={handleGoToHome}
+				/>
+			)
+		}
+		
 	}
 
 	const handlePlayCard = () => {
@@ -118,7 +126,7 @@ export default function Game({ navigation, route }) {
 		<View style={Styles.container}>
 			<Header round={room.round} points={points} />
 			<View style={Styles.bodyGame}>
-				{/* <View style={Styles.modal}>{renderModal()}</View> */}
+				<View style={Styles.modal}>{renderModal()}</View>
 				<View style={Styles.blackCardContainer}>
 					<View style={[Styles.blackCard, Styles.blackBg]}>
 						<Text style={Styles.whiteText}>{blackCard.content}</Text>
