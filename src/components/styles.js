@@ -76,7 +76,7 @@ const Styles = StyleSheet.create({
 		marginTop: '5%',
 		justifyContent: 'center',
 		fontSize: 14,
-		alignContent: 'center',	
+		alignContent: 'center',
 		textAlign: 'center',
 	},
 	divider: {
@@ -94,7 +94,7 @@ const Styles = StyleSheet.create({
 	buttonsBlock: {
 		alignItems: 'center',
 		marginBottom: '5%',
-		flexDirection:'row',
+		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignContent: 'center',
 		flex: 0.1,
@@ -188,35 +188,38 @@ const Styles = StyleSheet.create({
 	},
 	centeredView: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		marginTop: 20,
-	  },
-	  modalView: {
-		marginVertical: 50,
+	},
+	modalView: {
+		justifyContent: 'center',
+		alignContent: 'center',
+		marginVertical: 30,
 		marginLeft: 30,
 		marginRight: 30,
 		marginTop: 150,
-		backgroundColor: "black",
+		backgroundColor: 'black',
 		borderRadius: 20,
 		paddingTop: 200,
 		paddingBottom: 200,
-		alignItems: "center",
-		shadowColor: "white",
+		alignItems: 'center',
+		shadowColor: 'white',
 		shadowOffset: {
-		  width: 5,
-		  height: 5,
+			width: 5,
+			height: 5,
 		},
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
-		elevation: 2
-	  },
-	  modalText: {
-		margin: 5,
-		textAlign: "center",
+		elevation: 2,
+	},
+	modalText: {
+		marginLeft: 20,
+		marginRight: 20,
+		textAlign: 'center',
 		color: 'white',
-		fontSize: 20,
-	  },
+		fontSize: 18,
+	},
 })
 
 export default Styles

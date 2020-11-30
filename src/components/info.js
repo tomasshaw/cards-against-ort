@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import Styles from './styles'
 
-const info = ({ name, number }) => (
+const Info = ({ name, number }) => (
 	<View style={Styles.infoHeader}>
 		<Text style={Styles.greyText}>
 			{name}: {number}
@@ -10,4 +10,4 @@ const info = ({ name, number }) => (
 	</View>
 )
 
-export default info
+export default Info

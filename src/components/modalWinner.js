@@ -19,10 +19,12 @@ const ModalWinner = ({winner, visible, navigateToHome}) => {
                  <View style={Styles.modalView}>
                     <Text style={Styles.modalText}>The game is over! The winner is </Text>
                     <Text style={[Styles.mainText, Styles.whiteText]}>{winner}</Text>
+                    <View style={Styles.spacer } />
                     <Button
                     title="Go to home"
                     onPress={navigateToHome}
                     color='grey'
+
                     />
                 </View>
                 
