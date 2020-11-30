@@ -31,7 +31,7 @@ export default function Game({ navigation, route }) {
 	const [blackCard, setBlackCard] = useState({})
 	const [whiteCardsZar, setWhiteCardsZar] = useState([])
 	const [modalVisible, setModalVisible] = useState(false)
-	const [winner, setWinner] = useState('')
+	const [winner, setWinner] = useState({})
 	const [submitZar, setSubmitZar] = useState(false)
 	const [submitPlayer, setSubmitPlayer] = useState(false)
 
@@ -63,19 +63,11 @@ export default function Game({ navigation, route }) {
 			setWhiteCardsZar(whiteCardsZar => [...whiteCardsZar, card])
 		})
 		socket.on('show_winner', winner => {
-			console.log('WINNER QUE LLEGA', winner)
-			setWinner(winner.name)
+			setWinner(winner)
 			setModalVisible(true)
-			console.log(modalVisible)
 		})
 	}, [])
 
-	
-
-
-	// useEffect(() => {
-	// 	setModalVisible(winner !== '')
-	// }, [winner])
 
 
 	const renderItem = ({ item }) => {
@@ -92,12 +84,10 @@ export default function Game({ navigation, route }) {
 	}
 
 	const renderModal = () => {
-		console.log('MODALVISIBLE', modalVisible)
-		console.log('WINNER SETEADO', winner)
 		if(modalVisible){
 			return (
 				<Modal
-					winner={winner}
+					winner={winner.name}
 					visible={modalVisible}
 					navigateToHome={handleGoToHome}
 				/>
