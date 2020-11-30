@@ -8,7 +8,8 @@ import Home from './pages/home'
 import Lobby from './pages/lobby'
 import Game from './pages/game'
 import SocketContext from './global/context/index'
-const ENDPOINT = 'https://cardsagainst-develop.herokuapp.com/'
+
+const ENDPOINT = 'https://cardsagainstort.herokuapp.com/'
 const socket = io(ENDPOINT)
 
 const Stack = createStackNavigator()
