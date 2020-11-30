@@ -89,7 +89,9 @@ export default function Game({ navigation, route }) {
 	}
 
 	const handlePickWinner = () => {
+		if(room.players.length === whiteCardsZar.length + 1){
 		socket.emit('round_finished', room, selectedCard)
+		}
 	}
 
 	return (
